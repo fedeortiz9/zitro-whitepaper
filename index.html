@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zitro Network — Whitepaper V2.0</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #080810; color: #e0e0e0; line-height: 1.8; }
+
+        /* HERO */
+        .hero { background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a1a0a 100%); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 24px; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(200,255,0,0.08) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .hero-badge { background: rgba(200,255,0,0.1); border: 1px solid rgba(200,255,0,0.3); color: #c8ff00; padding: 8px 20px; border-radius: 30px; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 32px; display: inline-block; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 900; color: #fff; letter-spacing: -2px; margin-bottom: 8px; }
+        .hero h1 span { color: #c8ff00; }
+        .hero-sub { font-size: clamp(1rem, 3vw, 1.4rem); color: #888; margin-bottom: 48px; max-width: 600px; }
+        .hero-stats { display: flex; gap: 48px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px; }
+        .stat { text-align: center; }
+        .stat-num { font-size: 2rem; font-weight: 900; color: #c8ff00; }
+        .stat-label { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 2px; }
+        .hero-date { color: #444; font-size: 0.85rem; }
+
+        /* LAYOUT */
+        .container { max-width: 900px; margin: 0 auto; padding: 80px 24px; }
+        .chapter { margin-bottom: 80px; }
+        .chapter-num { color: #c8ff00; font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 12px; }
+        .chapter h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900; color: #fff; margin-bottom: 24px; }
+        .chapter p { color: #aaa; margin-bottom: 16px; font-size: 1rem; }
+        .chapter h3 { font-size: 1.2rem; color: #c8ff00; margin: 32px 0 12px; }
+
+        /* CARDS */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin: 32px 0; }
+        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 28px; transition: border-color 0.3s; }
+        .card:hover { border-color: rgba(200,255,0,0.3); }
+        .card-icon { font-size: 2rem; margin-bottom: 16px; }
+        .card h4 { color: #fff; font-size: 1rem; margin-bottom: 8px; }
+        .card p { color: #888; font-size: 0.9rem; margin: 0; }
+        .card .card-num { color: #c8ff00; font-size: 1.5rem; font-weight: 900; margin-bottom: 4px; }
+
+        /* TOKENOMICS */
+        .token-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        .token-table th { background: rgba(200,255,0,0.1); color: #c8ff00; padding: 14px 16px; text-align: left; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; }
+        .token-table td { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ccc; font-size: 0.95rem; }
+        .token-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .pct { color: #c8ff00; font-weight: 700; }
+
+        /* HALVING */
+        .halving-row { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .halving-phase { background: rgba(200,255,0,0.1); color: #c8ff00; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; white-space: nowrap; }
+        .halving-info { flex: 1; }
+        .halving-users { color: #888; font-size: 0.85rem; }
+        .halving-rate { color: #c8ff00; font-size: 1.2rem; font-weight: 900; text-align: right; white-space: nowrap; }
+
+        /* ROADMAP */
+        .roadmap { position: relative; padding-left: 32px; }
+        .roadmap::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, #c8ff00, transparent); }
+        .roadmap-item { position: relative; margin-bottom: 48px; }
+        .roadmap-item::before { content: ''; position: absolute; left: -38px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #c8ff00; box-shadow: 0 0 12px #c8ff00; }
+        .roadmap-phase { color: #c8ff00; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
+        .roadmap-item h4 { color: #fff; font-size: 1.2rem; margin-bottom: 12px; }
+        .roadmap-item ul { list-style: none; }
+        .roadmap-item ul li { color: #888; font-size: 0.9rem; padding: 4px 0; padding-left: 16px; position: relative; }
+        .roadmap-item ul li::before { content: '→'; position: absolute; left: 0; color: #c8ff00; }
+
+        /* HIGHLIGHT BOX */
+        .highlight-box { background: linear-gradient(135deg, rgba(200,255,0,0.05), rgba(44,4,139,0.1)); border: 1px solid rgba(200,255,0,0.2); border-radius: 16px; padding: 32px; margin: 32px 0; }
+        .highlight-box p { color: #ccc; margin: 0; font-size: 1.05rem; font-style: italic; }
+        .highlight-box .author { color: #c8ff00; font-size: 0.85rem; margin-top: 12px; font-style: normal; }
+
+        /* LANG */
+        .lang-bar { background: rgba(0,0,0,0.5); position: sticky; top: 0; z-index: 100; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .lang-bar .logo { color: #c8ff00; font-weight: 900; font-size: 1.1rem; letter-spacing: 2px; }
+        .lang-btn { background: transparent; border: 1px solid rgba(200,255,0,0.4); color: #c8ff00; padding: 6px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; }
+        .lang-btn:hover { background: rgba(200,255,0,0.1); }
+
+        /* DIVIDER */
+        .divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 60px 0; }
+
+        /* DISCLAIMER */
+        .disclaimer { background: rgba(255,100,0,0.05); border: 1px solid rgba(255,100,0,0.2); border-radius: 12px; padding: 20px 24px; margin: 40px 0; }
+        .disclaimer p { color: #888; font-size: 0.85rem; margin: 0; }
+        .disclaimer strong { color: #ff9944; }
+
+        /* FOOTER */
+        .footer { text-align: center; padding: 60px 24px; color: #333; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer .logo-big { color: #c8ff00; font-size: 2rem; font-weight: 900; letter-spacing: 4px; margin-bottom: 16px; }
+
+        .section-en { display: none; }
+
+        @media (max-width: 600px) {
+            .hero-stats { gap: 24px; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="lang-bar">
+    <div class="logo">ZITRO NETWORK</div>
+    <button class="lang-btn" onclick="toggleLang()" id="lang-btn">🇬🇧 English</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ESPAÑOL -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="section-es">
+
+<section class="hero">
+    <div class="hero-badge">Whitepaper V2.0 · Junio 2026</div>
+    <h1>ZITRO <span>NETWORK</span></h1>
+    <p class="hero-sub">La plataforma que convierte la atención humana en el activo más valioso del ecosistema Web3. Minería en la nube · Exchange · IA · Blockchain propia</p>
+    <div class="hero-stats">
+        <div class="stat">
+            <div class="stat-num">10B</div>
+            <div class="stat-label">Tokens ZTR</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">50M</div>
+            <div class="stat-label">Usuarios objetivo</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">72</div>
+            <div class="stat-label">Meses de minería</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">4</div>
+            <div class="stat-label">Fases de ejecución</div>
+        </div>
+    </div>
+    <div class="hero-date">Documento público · Propiedad intelectual de Zitro Network</div>
+</section>
+
+<div class="container">
+
+    <!-- CAP 1 -->
+    <div class="chapter">
+        <div class="chapter-num">Capítulo 01</div>
+        <h2>Visión y Problema que Resolvemos</h2>
+        <p>El ecosistema Web3 ha madurado, pero la mayoría de los proyectos de minería móvil fallaron en lo mismo: acumularon millones de usuarios sin construir un modelo de negocio real. Cuando llegó el día del listado, los tokens colapsaron en horas porque no tenían utilidad intrínseca.</p>
+        <p>Zitro Network nace para resolver este fallo sistémico. No somos simplemente una app de minería. Somos un ecosistema financiero completo cuyo objetivo final es <strong style="color:#c8ff00">Zitro Exchange</strong> — el primer exchange de criptoactivos construido sobre una base de millones de usuarios educados, leales, y con tokens acumulados durante años.</p>
+
+        <div class="highlight-box">
+            <p>"Mientras nuestros competidores queman capital de riesgo para adquirir usuarios, Zitro monetiza la atención de su comunidad desde el Día 1 — financiando el Exchange con los propios ingresos publicitarios de la red."</p>
+            <div class="author">— Whitepaper Zitro V2.0</div>
+        </div>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h4>Minería en la Nube</h4>
+                <p>Sin consumo de hardware. Todo corre en nuestros servidores. El usuario solo activa su sesión y el sistema trabaja por él.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🏦</div>
+                <h4>Zitro Exchange</h4>
+                <p>El objetivo final del ecosistema. Un CEX institucional para Latinoamérica y mercados emergentes, construido con los ingresos de la red.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🤖</div>
+                <h4>IA Propia</h4>
+                <p>Desarrollo de modelos de inteligencia artificial de código abierto integrados al ecosistema Zitro para análisis de mercado y automatización.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">⛓️</div>
+                <h4>Blockchain Zitro</h4>
+                <p>En fases avanzadas, la red migra a su propia blockchain. Los proyectos pueden crear ecosistemas y tokens sobre la infraestructura Zitro.</p>
+            </div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- CAP 2 -->
+    <div class="chapter">
+        <div class="chapter-num">Capítulo 02</div>
+        <h2>Tokenomics: 10.000 Millones de ZTR</h2>
+        <p>El suministro total de ZTR es de <strong style="color:#c8ff00">10.000.000.000 (10 mil millones)</strong>. Este número no es aleatorio — está calculado para sostener 6 años de minería masiva sin agotar el supply antes de que el Exchange esté listo.</p>
+
+        <table class="token-table">
+            <tr>
+                <th>Asignación</th>
+                <th>%</th>
+                <th>Tokens ZTR</th>
+                <th>Propósito</th>
+            </tr>
+            <tr>
+                <td>Minería y Nodos</td>
+                <td class="pct">45%</td>
+                <td>4,500,000,000</td>
+                <td>Adquisición de usuarios y recompensas de red</td>
+            </tr>
+            <tr>
+                <td>Reserva Corporativa</td>
+                <td class="pct">25%</td>
+                <td>2,500,000,000</td>
+                <td>Operaciones, licencias, servidores — bloqueado 3 años</td>
+            </tr>
+            <tr>
+                <td>Ecosistema y Academia</td>
+                <td class="pct">15%</td>
+                <td>1,500,000,000</td>
+                <td>Learn-to-Earn, certificaciones, tutores</td>
+            </tr>
+            <tr>
+                <td>Liquidez de Listado</td>
+                <td class="pct">10%</td>
+                <td>1,000,000,000</td>
+                <td>Market Makers, Liquidity Pools (PancakeSwap, etc.)</td>
+            </tr>
+            <tr>
+                <td>Equipo Core</td>
+                <td class="pct">5%</td>
+                <td>500,000,000</td>
+                <td>Fundadores y asesores — vesting 12 meses bloqueado</td>
+            </tr>
+        </table>
+    </div>
+
+    <hr class="divider">
+
+    <!-- CAP 3 -->
+    <div class="chapter">
+        <div class="chapter-num">Capítulo 03</div>
+        <h2>Algoritmo de Halving y Escasez Programada</h2>
+        <p>La tasa de minado no es fija. Se reduce automáticamente según el crecimiento de la red, garantizando que los 4,500 millones de ZTR duren exactamente 72 meses y no se agoten prematuramente.</p>
+
+        <div class="halving-row">
+            <span class="halving-phase">Fase 1</span>
+            <div class="halving-info">
+                <div style="color:#fff;font-weight:600">Pioneros</div>
+                <div class="halving-users">0 → 1 Millón de usuarios</div>
+            </div>
+            <div class="halving-rate">1.0 ZTR/h</div>
+        </div>
+        <div class="halving-row">
+            <span class="halving-phase">Fase 2</span>
+            <div class="halving-info">
+                <div style="color:#fff;font-weight:600">Expansión</div>
+                <div class="halving-users">1M → 5 Millones</div>
+            </div>
+            <div class="halving-rate">0.5 ZTR/h</div>
+        </div>
+        <div class="halving-row">
+            <span class="halving-phase">Fase 3</span>
+            <div class="halving-info">
+                <div style="color:#fff;font-weight:600">Masa Crítica</div>
+                <div class="halving-users">5M → 10 Millones</div>
+            </div>
+            <div class="halving-rate">0.25 ZTR/h</div>
+        </div>
+        <div class="halving-row">
+            <span class="halving-phase">Fase 4</span>
+            <div class="halving-info">
+                <div style="color:#fff;font-weight:600">Consolidación</div>
+                <div class="halving-users">10M → 20 Millones</div>
+            </div>
+            <div class="halving-rate">0.10 ZTR/h</div>
+        </div>
+        <div class="halving-row" style="border:none">
+            <span class="halving-phase">Fase 5</span>
+            <div class="halving-info">
+                <div style="color:#fff;font-weight:600">Saturación</div>
+                <div class="halving-users">20M → 50 Millones</div>
+            </div>
+            <div class="halving-rate">0.05 ZTR/h</div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- CAP 4 -->
+    <div class="chapter">
+        <div class="chapter-num">Capítulo 04</div>
+        <h2>Sistema de Referidos y Multiplicadores</h2>
+        <p>El sistema de referidos no otorga pagos fijos — otorga <strong style="color:#c8ff00">velocidad de minado</strong>. Por cada miembro activo en tu red, tu tasa de minado aumenta un <strong style="color:#c8ff00">+5%</strong>.</p>
+        <p>La clave es la condición de sincronización: el bonus solo se activa mientras tu referido esté minando al mismo tiempo que vos. Esto crea un ecosistema de motivación mutua donde la comunidad se impulsa a seguir activa.</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-num">+5%</div>
+                <h4>Por referido activo</h4>
+                <p>Bonus de velocidad de minado mientras tu referido mina simultáneamente contigo.</p>
+            </div>
+            <div class="card">
+                <div class="card-num">1,000</div>
+                <h4>Máximo de referidos</h4>
+                <p>Cap de 1,000 referidos activos para el cálculo del bonus. Sistema escalonado después de 200.</p>
+            </div>
+            <div class="card">
+                <div class="card-num">2.5%</div>
+                <h4>Referidos 201-1000</h4>
+                <p>Bonus reducido para referidos en el segundo tramo, manteniendo sostenibilidad del supply.</p>
+            </div>
+        </div>
+
+        <h3>El Botón Ping</h3>
+        <p>Cuando tus referidos están inactivos y tu velocidad de minado baja, podés enviarles una notificación push personalizada con un solo toque. La comunidad se convierte en el motor de retención de la propia plataforma.</p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- CAP 5 -->
+    <div class="chapter">
+        <div class="chapter-num">Capítulo 05</div>
+        <h2>Ciclos de Minería y Monetización</h2>
+        <p>Cada sesión de minería requiere visualizar un anuncio. Este modelo financia la construcción del Exchange desde el día 1, sin depender de inversores externos.</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">🌙</div>
+                <h4>Ciclo 24 Horas</h4>
+                <p>Modo pasivo. Una activación al día. Multiplicador base 1.0x. Para usuarios con poco tiempo.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h4>Ciclo 12 Horas</h4>
+                <p>Modo activo. Dos activaciones diarias. Multiplicador 1.2x. Premio por mayor compromiso.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔥</div>
+                <h4>Ciclo 6 Horas</h4>
+                <p>Modo hardcore. Cuatro activaciones diarias. Multiplicador 1.5x. Máxima acumulación de ZTR.</p>
+            </div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- CAP 6 -->
+    <div class="chapter">
+        <div class="chapter-num">Capítulo 06</div>
+        <h2>Zitro Trading Academy</h2>
+        <p>La Academia no es solo contenido educativo — es un sumidero de tokens y el puente entre el minero amateur y el trader profesional que va a operar en Zitro Exchange.</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">📚</div>
+                <h4>Contenido Base Gratuito</h4>
+                <p>Introducción a blockchain, conceptos de trading y análisis técnico básico. Sin costo de tokens.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎓</div>
+                <h4>Módulos Premium</h4>
+                <p>Fibonacci avanzado, patrones institucionales, bots con IA. Se desbloquean gastando ZTR minados.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🏆</div>
+                <h4>Learn-to-Earn</h4>
+                <p>Exámenes con ZTR en riesgo. Aprobás con +85% y ganás bonus. Reprobás y los tokens se queman.</p>
+            </div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- CAP 7 -->
+    <div class="chapter">
+        <div class="chapter-num">Capítulo 07</div>
+        <h2>Blockchain Zitro y Ecosistema GCV</h2>
+        <p>En la fase avanzada del proyecto, Zitro lanza su propia blockchain. Cualquier proyecto, empresa o comunidad podrá construir sobre la infraestructura Zitro.</p>
+
+        <h3>¿Qué es un GCV?</h3>
+        <p>El <strong style="color:#c8ff00">Valor de Comunidad Global (GCV)</strong> permite que cualquier usuario o proyecto establezca el valor percibido de ZTR dentro de su ecosistema. Comunidades pueden crear mercados internos donde ZTR opera al precio que ellos determinen, generando economías paralelas sostenidas por la utilidad real del token.</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">🌐</div>
+                <h4>Crea tu Ecosistema</h4>
+                <p>Proyectos y empresas pueden lanzar sus propios tokens sobre la blockchain de Zitro, usando ZTR como token de gas y governance.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">💹</div>
+                <h4>Marketplace P2P</h4>
+                <p>Mercado descentralizado donde usuarios intercambian bienes, servicios y tokens usando ZTR como medio de pago.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🤖</div>
+                <h4>IA de Código Abierto</h4>
+                <p>Modelos de IA desarrollados por Zitro, disponibles para el ecosistema. Análisis de mercado, predicción de precios y automatización de trading.</p>
+            </div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- CAP 8 -->
+    <div class="chapter">
+        <div class="chapter-num">Capítulo 08</div>
+        <h2>Mecanismos Anti-Dumping y Vesting</h2>
+        <p>El mayor riesgo de cualquier proyecto de minería gratuita es el dumping masivo el día del listado. Zitro implementa arquitectura financiera diseñada para prevenir el colapso del precio.</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">🔐</div>
+                <h4>Vesting de Lealtad</h4>
+                <p>Solo el 10-15% del saldo acumulado se desbloquea el Día 1 del TGE. El resto se libera linealmente en 12-24 meses.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔥</div>
+                <h4>Quema Dinámica</h4>
+                <p>Comisiones P2P (5%), penalizaciones por inactividad, y compras de contenido premium se queman permanentemente del supply.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📈</div>
+                <h4>Staking de Utilidad</h4>
+                <p>Bloquear ZTR en el Exchange da acceso a APY, Fee-Zero Trading y beneficios VIP. Incentiva el hold sobre la venta.</p>
+            </div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- CAP 9 -->
+    <div class="chapter">
+        <div class="chapter-num">Capítulo 09</div>
+        <h2>Zitro Exchange: El Objetivo Final</h2>
+        <p>Zitro Exchange es el CEX (Exchange Centralizado) diseñado para dominar Latinoamérica y mercados emergentes. A diferencia de competidores como Lemon Cash o Bitso que gastan fortunas en publicidad para adquirir usuarios, Zitro nace con millones de usuarios preexistentes, educados y con tokens acumulados.</p>
+
+        <h3>Zitro Crypto Card</h3>
+        <p>La tarjeta de débito cripto de Zitro (Visa/Mastercard) permite gastar ZTR y otras criptomonedas en comercios reales. El nivel de cashback y los límites dependen de la cantidad de ZTR acumulados históricamente — blindando la retención a largo plazo.</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">💱</div>
+                <h4>Spot y Futuros</h4>
+                <p>Trading de criptoactivos con libro de órdenes profundo, financiado por años de ingresos publicitarios de la red.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">💳</div>
+                <h4>Crypto Card</h4>
+                <p>Hasta 5% de cashback para holders de ZTR. Prioridad de emisión para los mineros más antiguos de la red.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🏛️</div>
+                <h4>IEO en la App</h4>
+                <p>Los mineros más comprometidos acceden a la preventa con 30% de descuento antes del listado público.</p>
+            </div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- CAP 10 ROADMAP -->
+    <div class="chapter">
+        <div class="chapter-num">Capítulo 10</div>
+        <h2>Roadmap de Ejecución</h2>
+
+        <div class="roadmap">
+            <div class="roadmap-item">
+                <div class="roadmap-phase">Fase 1 · Meses 01–12</div>
+                <h4>Fundación y Tracción</h4>
+                <ul>
+                    <li>Lanzamiento en Google Play Store y App Store</li>
+                    <li>Minería en ciclos de 6, 12 y 24 horas con anuncios</li>
+                    <li>Sistema de referidos con multiplicadores (+5%)</li>
+                    <li>Botón Ping para notificaciones de red</li>
+                    <li>Objetivo: 5 millones de usuarios registrados</li>
+                </ul>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-phase">Fase 2 · Meses 13–36</div>
+                <h4>Economía Funcional y Utilidad</h4>
+                <ul>
+                    <li>Lanzamiento de Zitro Trading Academy (Learn-to-Earn)</li>
+                    <li>Contratos de quema permanente activos</li>
+                    <li>Billetera Web3 interna para P2P entre usuarios</li>
+                    <li>Marketplace interno con ZTR como medio de pago</li>
+                    <li>Objetivo: 20 millones de usuarios</li>
+                </ul>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-phase">Fase 3 · Meses 37–60</div>
+                <h4>Institucionalización y IA</h4>
+                <ul>
+                    <li>Adquisición de licencias regulatorias PSAV/VASP</li>
+                    <li>Lanzamiento de modelos de IA de código abierto</li>
+                    <li>Private Sale y rondas de inversión institucional</li>
+                    <li>IEO exclusiva para mineros dentro de la app</li>
+                    <li>Auditoría de contratos inteligentes (CertiK)</li>
+                </ul>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-phase">Fase 4 · Meses 61–72+</div>
+                <h4>Zitro Exchange Mainnet</h4>
+                <ul>
+                    <li>Token Generation Event (TGE) y listado global</li>
+                    <li>Lanzamiento de Zitro Exchange (Spot y Futuros)</li>
+                    <li>Blockchain Zitro propia — ecosistemas GCV</li>
+                    <li>Zitro Crypto Card (Visa/Mastercard)</li>
+                    <li>Integración de IA para análisis de mercado en tiempo real</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="disclaimer">
+        <p><strong>Aviso Legal:</strong> Este documento es de carácter informativo y no constituye una oferta de inversión. Los tokens ZTR son recompensas por participación en la red y no representan valores financieros regulados. La participación en el ecosistema Zitro Network implica la aceptación de los Términos y Condiciones y la Política de Privacidad disponibles en zitronetwork.com. Las proyecciones de crecimiento son estimaciones y no garantías de rendimiento futuro.</p>
+    </div>
+
+</div>
+<!-- END CONTAINER ES -->
+
+<div class="footer" id="footer-es">
+    <div class="logo-big">ZITRO</div>
+    <p>© 2026 Zitro Network. Todos los derechos reservados.</p>
+    <p style="margin-top:8px"><a href="https://fedeortiz9.github.io/zitro-privacy-policy/" style="color:#c8ff00;text-decoration:none">Política de Privacidad</a> · zitronetwork.com</p>
+</div>
+
+</div>
+<!-- END SECTION ES -->
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ENGLISH -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="section-en" style="display:none">
+
+<section class="hero">
+    <div class="hero-badge">Whitepaper V2.0 · June 2026</div>
+    <h1>ZITRO <span>NETWORK</span></h1>
+    <p class="hero-sub">The platform that turns human attention into the most valuable asset in the Web3 ecosystem. Cloud Mining · Exchange · AI · Own Blockchain</p>
+    <div class="hero-stats">
+        <div class="stat"><div class="stat-num">10B</div><div class="stat-label">ZTR Tokens</div></div>
+        <div class="stat"><div class="stat-num">50M</div><div class="stat-label">Target Users</div></div>
+        <div class="stat"><div class="stat-num">72</div><div class="stat-label">Mining Months</div></div>
+        <div class="stat"><div class="stat-num">4</div><div class="stat-label">Execution Phases</div></div>
+    </div>
+    <div class="hero-date">Public Document · Intellectual Property of Zitro Network</div>
+</section>
+
+<div class="container">
+
+    <div class="chapter">
+        <div class="chapter-num">Chapter 01</div>
+        <h2>Vision and Problem We Solve</h2>
+        <p>The Web3 ecosystem has matured, but most mobile mining projects failed at the same thing: they accumulated millions of users without building a real business model. When listing day came, tokens collapsed within hours because they had no intrinsic utility.</p>
+        <p>Zitro Network was born to solve this systemic failure. We are not simply a mining app. We are a complete financial ecosystem whose ultimate goal is <strong style="color:#c8ff00">Zitro Exchange</strong> — the first crypto exchange built on a base of millions of educated, loyal users with years of accumulated tokens.</p>
+
+        <div class="highlight-box">
+            <p>"While our competitors burn venture capital to acquire users, Zitro monetizes its community's attention from Day 1 — funding the Exchange with the network's own advertising revenue."</p>
+            <div class="author">— Zitro Whitepaper V2.0</div>
+        </div>
+
+        <div class="card-grid">
+            <div class="card"><div class="card-icon">⚡</div><h4>Cloud Mining</h4><p>No hardware consumption. Everything runs on our servers. The user simply activates their session and the system works for them.</p></div>
+            <div class="card"><div class="card-icon">🏦</div><h4>Zitro Exchange</h4><p>The final goal of the ecosystem. An institutional CEX for Latin America and emerging markets, built with network revenue.</p></div>
+            <div class="card"><div class="card-icon">🤖</div><h4>Own AI</h4><p>Development of open-source AI models integrated into the Zitro ecosystem for market analysis and trading automation.</p></div>
+            <div class="card"><div class="card-icon">⛓️</div><h4>Zitro Blockchain</h4><p>In advanced phases, the network migrates to its own blockchain. Projects can create ecosystems and tokens on Zitro infrastructure.</p></div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="chapter">
+        <div class="chapter-num">Chapter 02</div>
+        <h2>Tokenomics: 10 Billion ZTR</h2>
+        <p>The total supply of ZTR is <strong style="color:#c8ff00">10,000,000,000 (10 billion)</strong>. This number is not random — it is calculated to sustain 6 years of massive mining without exhausting the supply before the Exchange is ready.</p>
+        <table class="token-table">
+            <tr><th>Allocation</th><th>%</th><th>ZTR Tokens</th><th>Purpose</th></tr>
+            <tr><td>Mining & Nodes</td><td class="pct">45%</td><td>4,500,000,000</td><td>User acquisition and network rewards</td></tr>
+            <tr><td>Corporate Reserve</td><td class="pct">25%</td><td>2,500,000,000</td><td>Operations, licenses, servers — locked 3 years</td></tr>
+            <tr><td>Ecosystem & Academy</td><td class="pct">15%</td><td>1,500,000,000</td><td>Learn-to-Earn, certifications, tutors</td></tr>
+            <tr><td>Listing Liquidity</td><td class="pct">10%</td><td>1,000,000,000</td><td>Market Makers, Liquidity Pools</td></tr>
+            <tr><td>Core Team</td><td class="pct">5%</td><td>500,000,000</td><td>Founders and advisors — 12 month vesting lock</td></tr>
+        </table>
+    </div>
+
+    <hr class="divider">
+
+    <div class="chapter">
+        <div class="chapter-num">Chapter 03</div>
+        <h2>Halving Algorithm and Programmed Scarcity</h2>
+        <div class="halving-row"><span class="halving-phase">Phase 1</span><div class="halving-info"><div style="color:#fff;font-weight:600">Pioneers</div><div class="halving-users">0 → 1 Million users</div></div><div class="halving-rate">1.0 ZTR/h</div></div>
+        <div class="halving-row"><span class="halving-phase">Phase 2</span><div class="halving-info"><div style="color:#fff;font-weight:600">Expansion</div><div class="halving-users">1M → 5 Million</div></div><div class="halving-rate">0.5 ZTR/h</div></div>
+        <div class="halving-row"><span class="halving-phase">Phase 3</span><div class="halving-info"><div style="color:#fff;font-weight:600">Critical Mass</div><div class="halving-users">5M → 10 Million</div></div><div class="halving-rate">0.25 ZTR/h</div></div>
+        <div class="halving-row"><span class="halving-phase">Phase 4</span><div class="halving-info"><div style="color:#fff;font-weight:600">Consolidation</div><div class="halving-users">10M → 20 Million</div></div><div class="halving-rate">0.10 ZTR/h</div></div>
+        <div class="halving-row" style="border:none"><span class="halving-phase">Phase 5</span><div class="halving-info"><div style="color:#fff;font-weight:600">Saturation</div><div class="halving-users">20M → 50 Million</div></div><div class="halving-rate">0.05 ZTR/h</div></div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="chapter">
+        <div class="chapter-num">Chapter 04</div>
+        <h2>Referral System and Multipliers</h2>
+        <p>For every active member in your network, your mining rate increases by <strong style="color:#c8ff00">+5%</strong>. The bonus only activates while your referral is mining simultaneously — creating mutual motivation across the community.</p>
+        <div class="card-grid">
+            <div class="card"><div class="card-num">+5%</div><h4>Per active referral</h4><p>Mining speed bonus while your referral mines simultaneously with you.</p></div>
+            <div class="card"><div class="card-num">1,000</div><h4>Maximum referrals</h4><p>Cap of 1,000 active referrals for bonus calculation. Tiered system after 200.</p></div>
+            <div class="card"><div class="card-num">2.5%</div><h4>Referrals 201-1000</h4><p>Reduced bonus for referrals in the second tier, maintaining supply sustainability.</p></div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="chapter">
+        <div class="chapter-num">Chapter 05</div>
+        <h2>Mining Cycles and Monetization</h2>
+        <div class="card-grid">
+            <div class="card"><div class="card-icon">🌙</div><h4>24 Hour Cycle</h4><p>Passive mode. One activation per day. Base multiplier 1.0x.</p></div>
+            <div class="card"><div class="card-icon">⚡</div><h4>12 Hour Cycle</h4><p>Active mode. Two daily activations. Multiplier 1.2x.</p></div>
+            <div class="card"><div class="card-icon">🔥</div><h4>6 Hour Cycle</h4><p>Hardcore mode. Four daily activations. Multiplier 1.5x. Maximum ZTR accumulation.</p></div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="chapter">
+        <div class="chapter-num">Chapter 06</div>
+        <h2>Zitro Blockchain and GCV Ecosystem</h2>
+        <p>In the advanced phase, Zitro launches its own blockchain. Any project, company or community can build on Zitro infrastructure.</p>
+        <h3>What is a GCV?</h3>
+        <p>The <strong style="color:#c8ff00">Global Community Value (GCV)</strong> allows any user or project to establish the perceived value of ZTR within their ecosystem. Communities can create internal markets where ZTR operates at the price they determine, generating parallel economies sustained by real token utility.</p>
+        <div class="card-grid">
+            <div class="card"><div class="card-icon">🌐</div><h4>Build Your Ecosystem</h4><p>Projects and companies can launch their own tokens on the Zitro blockchain, using ZTR as the gas and governance token.</p></div>
+            <div class="card"><div class="card-icon">💹</div><h4>P2P Marketplace</h4><p>Decentralized market where users exchange goods, services and tokens using ZTR as payment.</p></div>
+            <div class="card"><div class="card-icon">🤖</div><h4>Open Source AI</h4><p>AI models developed by Zitro, available to the ecosystem for market analysis, price prediction and trading automation.</p></div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="chapter">
+        <div class="chapter-num">Chapter 07</div>
+        <h2>Roadmap</h2>
+        <div class="roadmap">
+            <div class="roadmap-item">
+                <div class="roadmap-phase">Phase 1 · Months 01–12</div>
+                <h4>Foundation and Traction</h4>
+                <ul>
+                    <li>Launch on Google Play Store and App Store</li>
+                    <li>Mining in 6, 12 and 24 hour cycles with ads</li>
+                    <li>Referral system with multipliers (+5%)</li>
+                    <li>Ping Button for network notifications</li>
+                    <li>Target: 5 million registered users</li>
+                </ul>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-phase">Phase 2 · Months 13–36</div>
+                <h4>Functional Economy and Utility</h4>
+                <ul>
+                    <li>Zitro Trading Academy launch (Learn-to-Earn)</li>
+                    <li>Permanent burn contracts active</li>
+                    <li>Internal Web3 wallet for P2P between users</li>
+                    <li>Internal marketplace with ZTR as payment</li>
+                    <li>Target: 20 million users</li>
+                </ul>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-phase">Phase 3 · Months 37–60</div>
+                <h4>Institutionalization and AI</h4>
+                <ul>
+                    <li>PSAV/VASP regulatory licenses</li>
+                    <li>Open source AI models launch</li>
+                    <li>Private Sale and institutional investment rounds</li>
+                    <li>Exclusive IEO for miners within the app</li>
+                    <li>Smart contract audit (CertiK)</li>
+                </ul>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-phase">Phase 4 · Months 61–72+</div>
+                <h4>Zitro Exchange Mainnet</h4>
+                <ul>
+                    <li>Token Generation Event (TGE) and global listing</li>
+                    <li>Zitro Exchange launch (Spot and Futures)</li>
+                    <li>Zitro own blockchain — GCV ecosystems</li>
+                    <li>Zitro Crypto Card (Visa/Mastercard)</li>
+                    <li>AI integration for real-time market analysis</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="disclaimer">
+        <p><strong>Legal Notice:</strong> This document is for informational purposes only and does not constitute an investment offer. ZTR tokens are rewards for network participation and do not represent regulated financial securities. Participation in the Zitro Network ecosystem implies acceptance of the Terms and Conditions and Privacy Policy available at zitronetwork.com.</p>
+    </div>
+
+</div>
+
+<div class="footer" id="footer-en">
+    <div class="logo-big">ZITRO</div>
+    <p>© 2026 Zitro Network. All rights reserved.</p>
+    <p style="margin-top:8px"><a href="https://fedeortiz9.github.io/zitro-privacy-policy/" style="color:#c8ff00;text-decoration:none">Privacy Policy</a> · zitronetwork.com</p>
+</div>
+
+</div>
+<!-- END SECTION EN -->
+
+<script>
+function toggleLang() {
+    const es = document.getElementById('section-es');
+    const en = document.getElementById('section-en');
+    const btn = document.getElementById('lang-btn');
+    if (es.style.display === 'none') {
+        es.style.display = 'block';
+        en.style.display = 'none';
+        btn.textContent = '🇬🇧 English';
+    } else {
+        es.style.display = 'none';
+        en.style.display = 'block';
+        btn.textContent = '🇪🇸 Español';
+    }
+}
+</script>
+</body>
+</html>
