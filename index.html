@@ -1,705 +1,1708 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zitro Network — Whitepaper V2.0</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #080810; color: #e0e0e0; line-height: 1.8; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>White Paper — Zitro Network</title>
+<style>
+:root {
+  --bg: #F7F6F3;
+  --surface: #FFFFFF;
+  --text: #17171A;
+  --text-secondary: #55565C;
+  --text-tertiary: #8A8B90;
+  --border: #E3E2DD;
+  --rule: #D8D7D1;
+  --font-display: 'Iowan Old Style', 'Palatino Linotype', 'Georgia', 'Times New Roman', serif;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+[data-theme="dark"] {
+  --bg: #131313;
+  --surface: #1B1B1B;
+  --text: #EDEDEA;
+  --text-secondary: #A8A8A3;
+  --text-tertiary: #737370;
+  --border: #2C2C2A;
+  --rule: #333331;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 15.5px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.container { max-width: 700px; margin: 0 auto; padding: 40px 24px 96px; }
 
-        /* HERO */
-        .hero { background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a1a0a 100%); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 24px; position: relative; overflow: hidden; }
-        .hero::before { content: ''; position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(220,252,4,0.08) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); }
-        .hero-badge { background: rgba(220,252,4,0.1); border: 1px solid rgba(220,252,4,0.3); color: #dcfc04; padding: 8px 20px; border-radius: 30px; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 32px; display: inline-block; }
-        .hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 900; color: #fff; letter-spacing: -2px; margin-bottom: 8px; }
-        .hero h1 span { color: #dcfc04; }
-        .hero-sub { font-size: clamp(1rem, 3vw, 1.4rem); color: #888; margin-bottom: 48px; max-width: 600px; }
-        .hero-stats { display: flex; gap: 48px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px; }
-        .stat { text-align: center; }
-        .stat-num { font-size: 2rem; font-weight: 900; color: #dcfc04; }
-        .stat-label { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 2px; }
-        .hero-date { color: #444; font-size: 0.85rem; }
+/* ── Cover ─────────────────────────────────────────────────────────── */
+.cover {
+  padding: 8px 0 36px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.cover .eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 18px;
+}
+.cover h1 {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+.cover .subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  max-width: 46ch;
+  margin-bottom: 22px;
+}
+.cover .meta {
+  font-size: 12.5px;
+  color: var(--text-tertiary);
+}
 
-        /* LAYOUT */
-        .container { max-width: 900px; margin: 0 auto; padding: 80px 24px; }
-        .chapter { margin-bottom: 80px; }
-        .chapter-num { color: #dcfc04; font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 12px; }
-        .chapter h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900; color: #fff; margin-bottom: 24px; }
-        .chapter p { color: #aaa; margin-bottom: 16px; font-size: 1rem; }
-        .chapter h3 { font-size: 1.2rem; color: #dcfc04; margin: 32px 0 12px; }
+/* ── Controls (lang + theme) ──────────────────────────────────────── */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+.switch {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  overflow: hidden;
+}
+.switch button {
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  padding: 6px 15px;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.switch button.active { background: var(--surface); color: var(--text); }
 
-        /* CARDS */
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin: 32px 0; }
-        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 28px; transition: border-color 0.3s; }
-        .card:hover { border-color: rgba(220,252,4,0.3); }
-        .card-icon { font-size: 2rem; margin-bottom: 16px; }
-        .card h4 { color: #fff; font-size: 1rem; margin-bottom: 8px; }
-        .card p { color: #888; font-size: 0.9rem; margin: 0; }
-        .card .card-num { color: #dcfc04; font-size: 1.5rem; font-weight: 900; margin-bottom: 4px; }
+/* ── Table of contents ────────────────────────────────────────────── */
+nav.toc { margin: 40px 0 48px; }
+nav.toc h2 {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-tertiary);
+  margin-bottom: 14px;
+}
+nav.toc ol { list-style: none; counter-reset: toc; }
+nav.toc li {
+  counter-increment: toc;
+  border-bottom: 1px solid var(--border);
+}
+nav.toc li:first-child { border-top: 1px solid var(--border); }
+nav.toc a {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14.5px;
+  font-weight: 500;
+  padding: 11px 2px;
+}
+nav.toc a::before {
+  content: counter(toc, decimal-leading-zero);
+  font-family: var(--font-display);
+  font-size: 12.5px;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
 
-        /* TOKENOMICS */
-        .token-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
-        .token-table th { background: rgba(220,252,4,0.1); color: #dcfc04; padding: 14px 16px; text-align: left; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; }
-        .token-table td { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ccc; font-size: 0.95rem; }
-        .token-table tr:hover td { background: rgba(255,255,255,0.02); }
-        .pct { color: #dcfc04; font-weight: 700; }
+/* ── Chapters ──────────────────────────────────────────────────────── */
+.chapter { margin: 64px 0 8px; scroll-margin-top: 20px; }
+.chapter .chnum {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 8px;
+}
+.chapter h2 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 22px;
+}
+section { margin-bottom: 30px; }
+section h3 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+  margin: 26px 0 10px;
+}
+section h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 18px 0 6px;
+}
+p { margin-bottom: 13px; color: var(--text); }
+p.lead {
+  font-size: 16.5px;
+  color: var(--text);
+  font-weight: 400;
+}
+ul, ol.plain { margin: 4px 0 16px 20px; }
+ul li, ol.plain li { margin-bottom: 7px; color: var(--text); }
+strong { font-weight: 600; }
 
-        /* HALVING */
-        .halving-row { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .halving-phase { background: rgba(220,252,4,0.1); color: #dcfc04; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; white-space: nowrap; }
-        .halving-info { flex: 1; }
-        .halving-users { color: #888; font-size: 0.85rem; }
-        .halving-rate { color: #dcfc04; font-size: 1.2rem; font-weight: 900; text-align: right; white-space: nowrap; }
+/* ── Callouts / pull quotes ────────────────────────────────────────── */
+.note {
+  border-left: 2px solid var(--text);
+  padding: 4px 0 4px 16px;
+  margin: 20px 0;
+  color: var(--text-secondary);
+  font-size: 14.5px;
+}
+.figure {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin: 22px 0;
+  background: var(--surface);
+}
+.figure .label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 6px;
+}
+.figure .value {
+  font-family: var(--font-display);
+  font-size: 26px;
+  color: var(--text);
+}
+.figure-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 22px 0;
+}
+@media (max-width: 460px) { .figure-grid { grid-template-columns: 1fr; } }
 
-        /* ROADMAP */
-        .roadmap { position: relative; padding-left: 32px; }
-        .roadmap::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, #dcfc04, transparent); }
-        .roadmap-item { position: relative; margin-bottom: 48px; }
-        .roadmap-item::before { content: ''; position: absolute; left: -38px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #dcfc04; box-shadow: 0 0 12px #dcfc04; }
-        .roadmap-phase { color: #dcfc04; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
-        .roadmap-item h4 { color: #fff; font-size: 1.2rem; margin-bottom: 12px; }
-        .roadmap-item ul { list-style: none; }
-        .roadmap-item ul li { color: #888; font-size: 0.9rem; padding: 4px 0; padding-left: 16px; position: relative; }
-        .roadmap-item ul li::before { content: '→'; position: absolute; left: 0; color: #dcfc04; }
+/* ── Distribution table ───────────────────────────────────────────── */
+table.dist {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0 26px;
+  font-size: 14px;
+}
+table.dist th {
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding: 0 0 10px;
+  border-bottom: 1px solid var(--rule);
+}
+table.dist td {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+table.dist td.pct {
+  text-align: right;
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+table.dist tr:last-child td { border-bottom: none; }
 
-        /* HIGHLIGHT BOX */
-        .highlight-box { background: linear-gradient(135deg, rgba(220,252,4,0.05), rgba(44,4,140,0.1)); border: 1px solid rgba(220,252,4,0.2); border-radius: 16px; padding: 32px; margin: 32px 0; }
-        .highlight-box p { color: #ccc; margin: 0; font-size: 1.05rem; font-style: italic; }
-        .highlight-box .author { color: #dcfc04; font-size: 0.85rem; margin-top: 12px; font-style: normal; }
+hr.rule { border: none; border-top: 1px solid var(--rule); margin: 40px 0; }
 
-        /* LANG */
-        .lang-bar { background: rgba(0,0,0,0.5); position: sticky; top: 0; z-index: 100; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .lang-bar .logo { color: #dcfc04; font-weight: 900; font-size: 1.1rem; letter-spacing: 2px; }
-        .lang-btn { background: transparent; border: 1px solid rgba(220,252,4,0.4); color: #dcfc04; padding: 6px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; }
-        .lang-btn:hover { background: rgba(220,252,4,0.1); }
+footer {
+  margin-top: 56px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  color: var(--text-tertiary);
+  font-size: 12px;
+}
+footer p { margin-bottom: 3px; }
 
-        /* DIVIDER */
-        .divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 60px 0; }
+.lang-en { display: none; }
 
-        /* DISCLAIMER */
-        .disclaimer { background: rgba(255,100,0,0.05); border: 1px solid rgba(255,100,0,0.2); border-radius: 12px; padding: 20px 24px; margin: 40px 0; }
-        .disclaimer p { color: #888; font-size: 0.85rem; margin: 0; }
-        .disclaimer strong { color: #ff9944; }
-
-        /* FOOTER */
-        .footer { text-align: center; padding: 60px 24px; color: #333; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
-        .footer .logo-big { color: #dcfc04; font-size: 2rem; font-weight: 900; letter-spacing: 4px; margin-bottom: 16px; }
-
-        .section-en { display: none; }
-
-        @media (max-width: 600px) {
-            .hero-stats { gap: 24px; }
-            .card-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+@media print {
+  body { background: #fff; color: #111; }
+  .controls { display: none; }
+}
+</style>
 </head>
 <body>
-
-<div class="lang-bar">
-    <div class="logo">ZITRO NETWORK</div>
-    <button class="lang-btn" onclick="toggleLang()" id="lang-btn">🇬🇧 English</button>
-</div>
-
-<!-- ═══════════════════════════════════════════════════ -->
-<!-- ESPAÑOL -->
-<!-- ═══════════════════════════════════════════════════ -->
-<div id="section-es">
-
-<section class="hero">
-    <div class="hero-badge">Whitepaper V2.0 · Junio 2026</div>
-    <h1>ZITRO <span>NETWORK</span></h1>
-    <p class="hero-sub">La plataforma que convierte la atención humana en el activo más valioso del ecosistema Web3. Minería en la nube · Exchange · IA · Blockchain propia</p>
-    <div class="hero-stats">
-        <div class="stat">
-            <div class="stat-num">10B</div>
-            <div class="stat-label">Tokens ZTR</div>
-        </div>
-        <div class="stat">
-            <div class="stat-num">50M</div>
-            <div class="stat-label">Usuarios objetivo</div>
-        </div>
-        <div class="stat">
-            <div class="stat-num">72</div>
-            <div class="stat-label">Meses de minería</div>
-        </div>
-        <div class="stat">
-            <div class="stat-num">4</div>
-            <div class="stat-label">Fases de ejecución</div>
-        </div>
-    </div>
-    <div class="hero-date">Documento público · Propiedad intelectual de Zitro Network</div>
-</section>
-
 <div class="container">
 
-    <!-- CAP 1 -->
-    <div class="chapter">
-        <div class="chapter-num">Capítulo 01</div>
-        <h2>Visión y Problema que Resolvemos</h2>
-        <p>El ecosistema Web3 ha madurado, pero la mayoría de los proyectos de minería móvil fallaron en lo mismo: acumularon millones de usuarios sin construir un modelo de negocio real. Cuando llegó el día del listado, los tokens colapsaron en horas porque no tenían utilidad intrínseca.</p>
-        <p>Zitro Network nace para resolver este fallo sistémico. No somos simplemente una app de minería. Somos un ecosistema financiero completo cuyo objetivo final es <strong style="color:#dcfc04">Zitro Exchange</strong> — el primer exchange de criptoactivos construido sobre una base de millones de usuarios educados, leales, y con tokens acumulados durante años.</p>
-
-        <div class="highlight-box">
-            <p>"Mientras nuestros competidores queman capital de riesgo para adquirir usuarios, Zitro monetiza la atención de su comunidad desde el Día 1 — financiando el Exchange con los propios ingresos publicitarios de la red."</p>
-            <div class="author">— Whitepaper Zitro V2.0</div>
-        </div>
-
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-icon">⚡</div>
-                <h4>Minería en la Nube</h4>
-                <p>Sin consumo de hardware. Todo corre en nuestros servidores. El usuario solo activa su sesión y el sistema trabaja por él.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🏦</div>
-                <h4>Zitro Exchange</h4>
-                <p>El objetivo final del ecosistema. Un CEX institucional para Latinoamérica y mercados emergentes, construido con los ingresos de la red.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🤖</div>
-                <h4>IA Propia</h4>
-                <p>Desarrollo de modelos de inteligencia artificial de código abierto integrados al ecosistema Zitro para análisis de mercado y automatización.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">⛓️</div>
-                <h4>Blockchain Zitro</h4>
-                <p>En fases avanzadas, la red migra a su propia blockchain. Los proyectos pueden crear ecosistemas y tokens sobre la infraestructura Zitro.</p>
-            </div>
-        </div>
+<div class="cover">
+  <div class="eyebrow">White Paper &middot; v2.0</div>
+  <h1>Zitro Network</h1>
+  <p class="subtitle lang-es">Construyendo la SuperApp Web3 impulsada por Inteligencia Artificial.</p>
+  <p class="subtitle lang-en">Building the AI-powered Web3 SuperApp.</p>
+  <p class="meta">
+    <span class="lang-es">Ultima actualizacion: 30 de junio de 2026</span>
+    <span class="lang-en">Last updated: June 30, 2026</span>
+  </p>
+  <div class="controls">
+    <div class="switch">
+      <button class="active" onclick="setLang('es')">ES</button>
+      <button onclick="setLang('en')">EN</button>
     </div>
-
-    <hr class="divider">
-
-    <!-- CAP 2 -->
-    <div class="chapter">
-        <div class="chapter-num">Capítulo 02</div>
-        <h2>Tokenomics: 10.000 Millones de ZTR</h2>
-        <p>El suministro total de ZTR es de <strong style="color:#dcfc04">10.000.000.000 (10 mil millones)</strong>. Este número no es aleatorio — está calculado para sostener 6 años de minería masiva sin agotar el supply antes de que el Exchange esté listo.</p>
-
-        <table class="token-table">
-            <tr>
-                <th>Asignación</th>
-                <th>%</th>
-                <th>Tokens ZTR</th>
-                <th>Propósito</th>
-            </tr>
-            <tr>
-                <td>Minería y Nodos</td>
-                <td class="pct">45%</td>
-                <td>4,500,000,000</td>
-                <td>Adquisición de usuarios y recompensas de red</td>
-            </tr>
-            <tr>
-                <td>Reserva Corporativa</td>
-                <td class="pct">25%</td>
-                <td>2,500,000,000</td>
-                <td>Operaciones, licencias, servidores — bloqueado 3 años</td>
-            </tr>
-            <tr>
-                <td>Ecosistema y Academia</td>
-                <td class="pct">15%</td>
-                <td>1,500,000,000</td>
-                <td>Learn-to-Earn, certificaciones, tutores</td>
-            </tr>
-            <tr>
-                <td>Liquidez de Listado</td>
-                <td class="pct">10%</td>
-                <td>1,000,000,000</td>
-                <td>Market Makers, Liquidity Pools (PancakeSwap, etc.)</td>
-            </tr>
-            <tr>
-                <td>Equipo Core</td>
-                <td class="pct">5%</td>
-                <td>500,000,000</td>
-                <td>Fundadores y asesores — vesting 12 meses bloqueado</td>
-            </tr>
-        </table>
+    <div class="switch">
+      <button class="active" onclick="setTheme('light')">&#9679; Light</button>
+      <button onclick="setTheme('dark')">&#9679; Dark</button>
     </div>
-
-    <hr class="divider">
-
-    <!-- CAP 3 -->
-    <div class="chapter">
-        <div class="chapter-num">Capítulo 03</div>
-        <h2>Algoritmo de Halving y Escasez Programada</h2>
-        <p>La tasa de minado no es fija. Se reduce automáticamente según el crecimiento de la red, garantizando que los 4,500 millones de ZTR duren exactamente 72 meses y no se agoten prematuramente.</p>
-
-        <div class="halving-row">
-            <span class="halving-phase">Fase 1</span>
-            <div class="halving-info">
-                <div style="color:#fff;font-weight:600">Pioneros</div>
-                <div class="halving-users">0 → 1 Millón de usuarios</div>
-            </div>
-            <div class="halving-rate">1.0 ZTR/h</div>
-        </div>
-        <div class="halving-row">
-            <span class="halving-phase">Fase 2</span>
-            <div class="halving-info">
-                <div style="color:#fff;font-weight:600">Expansión</div>
-                <div class="halving-users">1M → 5 Millones</div>
-            </div>
-            <div class="halving-rate">0.5 ZTR/h</div>
-        </div>
-        <div class="halving-row">
-            <span class="halving-phase">Fase 3</span>
-            <div class="halving-info">
-                <div style="color:#fff;font-weight:600">Masa Crítica</div>
-                <div class="halving-users">5M → 10 Millones</div>
-            </div>
-            <div class="halving-rate">0.25 ZTR/h</div>
-        </div>
-        <div class="halving-row">
-            <span class="halving-phase">Fase 4</span>
-            <div class="halving-info">
-                <div style="color:#fff;font-weight:600">Consolidación</div>
-                <div class="halving-users">10M → 20 Millones</div>
-            </div>
-            <div class="halving-rate">0.10 ZTR/h</div>
-        </div>
-        <div class="halving-row" style="border:none">
-            <span class="halving-phase">Fase 5</span>
-            <div class="halving-info">
-                <div style="color:#fff;font-weight:600">Saturación</div>
-                <div class="halving-users">20M → 50 Millones</div>
-            </div>
-            <div class="halving-rate">0.05 ZTR/h</div>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <!-- CAP 4 -->
-    <div class="chapter">
-        <div class="chapter-num">Capítulo 04</div>
-        <h2>Sistema de Referidos y Multiplicadores</h2>
-        <p>El sistema de referidos no otorga pagos fijos — otorga <strong style="color:#dcfc04">velocidad de minado</strong>. Por cada miembro activo en tu red, tu tasa de minado aumenta un <strong style="color:#dcfc04">+5%</strong>.</p>
-        <p>La clave es la condición de sincronización: el bonus solo se activa mientras tu referido esté minando al mismo tiempo que vos. Esto crea un ecosistema de motivación mutua donde la comunidad se impulsa a seguir activa.</p>
-
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-num">+5%</div>
-                <h4>Por referido activo</h4>
-                <p>Bonus de velocidad de minado mientras tu referido mina simultáneamente contigo.</p>
-            </div>
-            <div class="card">
-                <div class="card-num">1,000</div>
-                <h4>Máximo de referidos</h4>
-                <p>Cap de 1,000 referidos activos para el cálculo del bonus. Sistema escalonado después de 200.</p>
-            </div>
-            <div class="card">
-                <div class="card-num">2.5%</div>
-                <h4>Referidos 201-1000</h4>
-                <p>Bonus reducido para referidos en el segundo tramo, manteniendo sostenibilidad del supply.</p>
-            </div>
-        </div>
-
-        <h3>El Botón Ping</h3>
-        <p>Cuando tus referidos están inactivos y tu velocidad de minado baja, podés enviarles una notificación push personalizada con un solo toque. La comunidad se convierte en el motor de retención de la propia plataforma.</p>
-    </div>
-
-    <hr class="divider">
-
-    <!-- CAP 5 -->
-    <div class="chapter">
-        <div class="chapter-num">Capítulo 05</div>
-        <h2>Ciclos de Minería y Monetización</h2>
-        <p>Cada sesión de minería requiere visualizar un anuncio. Este modelo financia la construcción del Exchange desde el día 1, sin depender de inversores externos.</p>
-
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-icon">🌙</div>
-                <h4>Ciclo 24 Horas</h4>
-                <p>Modo pasivo. Una activación al día. Multiplicador base 1.0x. Para usuarios con poco tiempo.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">⚡</div>
-                <h4>Ciclo 12 Horas</h4>
-                <p>Modo activo. Dos activaciones diarias. Multiplicador 1.2x. Premio por mayor compromiso.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🔥</div>
-                <h4>Ciclo 6 Horas</h4>
-                <p>Modo hardcore. Cuatro activaciones diarias. Multiplicador 1.5x. Máxima acumulación de ZTR.</p>
-            </div>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <!-- CAP 6 -->
-    <div class="chapter">
-        <div class="chapter-num">Capítulo 06</div>
-        <h2>Zitro Trading Academy</h2>
-        <p>La Academia no es solo contenido educativo — es un sumidero de tokens y el puente entre el minero amateur y el trader profesional que va a operar en Zitro Exchange.</p>
-
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-icon">📚</div>
-                <h4>Contenido Base Gratuito</h4>
-                <p>Introducción a blockchain, conceptos de trading y análisis técnico básico. Sin costo de tokens.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🎓</div>
-                <h4>Módulos Premium</h4>
-                <p>Fibonacci avanzado, patrones institucionales, bots con IA. Se desbloquean gastando ZTR minados.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🏆</div>
-                <h4>Learn-to-Earn</h4>
-                <p>Exámenes con ZTR en riesgo. Aprobás con +85% y ganás bonus. Reprobás y los tokens se queman.</p>
-            </div>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <!-- CAP 7 -->
-    <div class="chapter">
-        <div class="chapter-num">Capítulo 07</div>
-        <h2>Blockchain Zitro y Ecosistema GCV</h2>
-        <p>En la fase avanzada del proyecto, Zitro lanza su propia blockchain. Cualquier proyecto, empresa o comunidad podrá construir sobre la infraestructura Zitro.</p>
-
-        <h3>¿Qué es un GCV?</h3>
-        <p>El <strong style="color:#dcfc04">Valor de Comunidad Global (GCV)</strong> permite que cualquier usuario o proyecto establezca el valor percibido de ZTR dentro de su ecosistema. Comunidades pueden crear mercados internos donde ZTR opera al precio que ellos determinen, generando economías paralelas sostenidas por la utilidad real del token.</p>
-
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-icon">🌐</div>
-                <h4>Crea tu Ecosistema</h4>
-                <p>Proyectos y empresas pueden lanzar sus propios tokens sobre la blockchain de Zitro, usando ZTR como token de gas y governance.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">💹</div>
-                <h4>Marketplace P2P</h4>
-                <p>Mercado descentralizado donde usuarios intercambian bienes, servicios y tokens usando ZTR como medio de pago.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🤖</div>
-                <h4>IA de Código Abierto</h4>
-                <p>Modelos de IA desarrollados por Zitro, disponibles para el ecosistema. Análisis de mercado, predicción de precios y automatización de trading.</p>
-            </div>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <!-- CAP 8 -->
-    <div class="chapter">
-        <div class="chapter-num">Capítulo 08</div>
-        <h2>Mecanismos Anti-Dumping y Vesting</h2>
-        <p>El mayor riesgo de cualquier proyecto de minería gratuita es el dumping masivo el día del listado. Zitro implementa arquitectura financiera diseñada para prevenir el colapso del precio.</p>
-
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-icon">🔐</div>
-                <h4>Vesting de Lealtad</h4>
-                <p>Solo el 10-15% del saldo acumulado se desbloquea el Día 1 del TGE. El resto se libera linealmente en 12-24 meses.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🔥</div>
-                <h4>Quema Dinámica</h4>
-                <p>Comisiones P2P (5%), penalizaciones por inactividad, y compras de contenido premium se queman permanentemente del supply.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">📈</div>
-                <h4>Staking de Utilidad</h4>
-                <p>Bloquear ZTR en el Exchange da acceso a APY, Fee-Zero Trading y beneficios VIP. Incentiva el hold sobre la venta.</p>
-            </div>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <!-- CAP 9 -->
-    <div class="chapter">
-        <div class="chapter-num">Capítulo 09</div>
-        <h2>Zitro Exchange: El Objetivo Final</h2>
-        <p>Zitro Exchange es el CEX (Exchange Centralizado) diseñado para dominar Latinoamérica y mercados emergentes. A diferencia de competidores como Lemon Cash o Bitso que gastan fortunas en publicidad para adquirir usuarios, Zitro nace con millones de usuarios preexistentes, educados y con tokens acumulados.</p>
-
-        <h3>Zitro Crypto Card</h3>
-        <p>La tarjeta de débito cripto de Zitro (Visa/Mastercard) permite gastar ZTR y otras criptomonedas en comercios reales. El nivel de cashback y los límites dependen de la cantidad de ZTR acumulados históricamente — blindando la retención a largo plazo.</p>
-
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-icon">💱</div>
-                <h4>Spot y Futuros</h4>
-                <p>Trading de criptoactivos con libro de órdenes profundo, financiado por años de ingresos publicitarios de la red.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">💳</div>
-                <h4>Crypto Card</h4>
-                <p>Hasta 5% de cashback para holders de ZTR. Prioridad de emisión para los mineros más antiguos de la red.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🏛️</div>
-                <h4>IEO en la App</h4>
-                <p>Los mineros más comprometidos acceden a la preventa con 30% de descuento antes del listado público.</p>
-            </div>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <!-- CAP 10 ROADMAP -->
-    <div class="chapter">
-        <div class="chapter-num">Capítulo 10</div>
-        <h2>Roadmap de Ejecución</h2>
-
-        <div class="roadmap">
-            <div class="roadmap-item">
-                <div class="roadmap-phase">Fase 1 · Meses 01–12</div>
-                <h4>Fundación y Tracción</h4>
-                <ul>
-                    <li>Lanzamiento en Google Play Store y App Store</li>
-                    <li>Minería en ciclos de 6, 12 y 24 horas con anuncios</li>
-                    <li>Sistema de referidos con multiplicadores (+5%)</li>
-                    <li>Botón Ping para notificaciones de red</li>
-                    <li>Objetivo: 5 millones de usuarios registrados</li>
-                </ul>
-            </div>
-            <div class="roadmap-item">
-                <div class="roadmap-phase">Fase 2 · Meses 13–36</div>
-                <h4>Economía Funcional y Utilidad</h4>
-                <ul>
-                    <li>Lanzamiento de Zitro Trading Academy (Learn-to-Earn)</li>
-                    <li>Contratos de quema permanente activos</li>
-                    <li>Billetera Web3 interna para P2P entre usuarios</li>
-                    <li>Marketplace interno con ZTR como medio de pago</li>
-                    <li>Objetivo: 20 millones de usuarios</li>
-                </ul>
-            </div>
-            <div class="roadmap-item">
-                <div class="roadmap-phase">Fase 3 · Meses 37–60</div>
-                <h4>Institucionalización y IA</h4>
-                <ul>
-                    <li>Adquisición de licencias regulatorias PSAV/VASP</li>
-                    <li>Lanzamiento de modelos de IA de código abierto</li>
-                    <li>Private Sale y rondas de inversión institucional</li>
-                    <li>IEO exclusiva para mineros dentro de la app</li>
-                    <li>Auditoría de contratos inteligentes (CertiK)</li>
-                </ul>
-            </div>
-            <div class="roadmap-item">
-                <div class="roadmap-phase">Fase 4 · Meses 61–72+</div>
-                <h4>Zitro Exchange Mainnet</h4>
-                <ul>
-                    <li>Token Generation Event (TGE) y listado global</li>
-                    <li>Lanzamiento de Zitro Exchange (Spot y Futuros)</li>
-                    <li>Blockchain Zitro propia — ecosistemas GCV</li>
-                    <li>Zitro Crypto Card (Visa/Mastercard)</li>
-                    <li>Integración de IA para análisis de mercado en tiempo real</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="disclaimer">
-        <p><strong>Aviso Legal:</strong> Este documento es de carácter informativo y no constituye una oferta de inversión. Los tokens ZTR son recompensas por participación en la red y no representan valores financieros regulados. La participación en el ecosistema Zitro Network implica la aceptación de los Términos y Condiciones y la Política de Privacidad disponibles en zitronetwork.com. Las proyecciones de crecimiento son estimaciones y no garantías de rendimiento futuro.</p>
-    </div>
-
-</div>
-<!-- END CONTAINER ES -->
-
-<div class="footer" id="footer-es">
-    <div class="logo-big">ZITRO</div>
-    <p>© 2026 Zitro Network. Todos los derechos reservados.</p>
-    <p style="margin-top:8px"><a href="https://fedeortiz9.github.io/zitro-privacy-policy/" style="color:#dcfc04;text-decoration:none">Política de Privacidad</a> · zitronetwork.com</p>
+  </div>
 </div>
 
-</div>
-<!-- END SECTION ES -->
+<!-- ══════════════════════════════════════════════════════════════════
+     ESPAÑOL
+     ══════════════════════════════════════════════════════════════════ -->
+<div class="lang-es">
 
+<nav class="toc">
+  <h2>Contenido</h2>
+  <ol>
+    <li><a href="#es-1">Resumen Ejecutivo</a></li>
+    <li><a href="#es-2">El Problema: Por Que Web3 Aun No Ha Logrado La Adopcion Masiva</a></li>
+    <li><a href="#es-3">Arquitectura del Ecosistema Zitro</a></li>
+    <li><a href="#es-4">Economia del Token (Tokenomics)</a></li>
+    <li><a href="#es-5">Sistema de Participacion, Cloud Mining y Crecimiento de la Red</a></li>
+    <li><a href="#es-6">Evolucion del Ecosistema y Desarrollo de la Red</a></li>
+    <li><a href="#es-7">Gobernanza y Desarrollo del Ecosistema</a></li>
+    <li><a href="#es-8">Seguridad, Identidad Digital e Infraestructura</a></li>
+    <li><a href="#es-9">Estrategia de Adopcion y Crecimiento del Ecosistema</a></li>
+    <li><a href="#es-10">Gestion de Riesgos y Sostenibilidad del Proyecto</a></li>
+  </ol>
+</nav>
 
-<!-- ═══════════════════════════════════════════════════ -->
-<!-- ENGLISH -->
-<!-- ═══════════════════════════════════════════════════ -->
-<div id="section-en" style="display:none">
+<div class="chapter" id="es-1">
+  <div class="chnum">Capitulo 01</div>
+  <h2>Resumen Ejecutivo</h2>
 
-<section class="hero">
-    <div class="hero-badge">Whitepaper V2.0 · June 2026</div>
-    <h1>ZITRO <span>NETWORK</span></h1>
-    <p class="hero-sub">The platform that turns human attention into the most valuable asset in the Web3 ecosystem. Cloud Mining · Exchange · AI · Own Blockchain</p>
-    <div class="hero-stats">
-        <div class="stat"><div class="stat-num">10B</div><div class="stat-label">ZTR Tokens</div></div>
-        <div class="stat"><div class="stat-num">50M</div><div class="stat-label">Target Users</div></div>
-        <div class="stat"><div class="stat-num">72</div><div class="stat-label">Mining Months</div></div>
-        <div class="stat"><div class="stat-num">4</div><div class="stat-label">Execution Phases</div></div>
-    </div>
-    <div class="hero-date">Public Document · Intellectual Property of Zitro Network</div>
-</section>
+  <section>
+    <h3>Introduccion</h3>
+    <p class="lead">La economia digital ha evolucionado rapidamente durante la ultima decada. La tecnologia blockchain, la inteligencia artificial, las finanzas descentralizadas y los mercados digitales han transformado la manera en que las personas intercambian valor y acceden a servicios. Sin embargo, estas innovaciones continuan estando fragmentadas en cientos de plataformas independientes.</p>
+    <p>Actualmente, un usuario promedio necesita utilizar multiples aplicaciones para participar en la economia digital:</p>
+    <ul>
+      <li>Una aplicacion para almacenar sus activos digitales.</li>
+      <li>Otra para comprar criptomonedas.</li>
+      <li>Otra para intercambiar tokens.</li>
+      <li>Otra para utilizar aplicaciones descentralizadas (dApps).</li>
+      <li>Otra para acceder a servicios de inteligencia artificial.</li>
+      <li>Otra para vender productos o servicios en linea.</li>
+    </ul>
+    <p>Esta fragmentacion genera complejidad, dificulta la adopcion masiva y limita el acceso de miles de millones de personas al ecosistema Web3.</p>
+    <p>Zitro Network nace para resolver este problema. En lugar de construir simplemente otra criptomoneda o una blockchain aislada, Zitro ha sido concebido como un ecosistema Web3 integrado, donde los usuarios pueden acceder a servicios financieros descentralizados, inteligencia artificial, comercio digital y herramientas blockchain desde una unica plataforma.</p>
+    <p>La primera etapa del proyecto consistira en el lanzamiento del Token ZTR sobre BNB Chain, aprovechando una de las infraestructuras blockchain mas consolidadas del mundo y evitando los riesgos tecnicos y economicos que implica lanzar una blockchain propia desde el primer dia.</p>
+    <p>A medida que el ecosistema alcance niveles significativos de adopcion y actividad economica, Zitro evolucionara progresivamente hacia una blockchain propia disenada especificamente para usuarios moviles, aplicaciones de inteligencia artificial y comercio descentralizado.</p>
+  </section>
 
-<div class="container">
+  <section>
+    <h3>Vision</h3>
+    <p>Zitro aspira a convertirse en la infraestructura que impulse la proxima generacion de servicios digitales descentralizados. En lugar de centrarse unicamente en una criptomoneda, el ecosistema integra multiples tecnologias dentro de una unica experiencia de usuario. Entre ellas se encuentran:</p>
+    <ul>
+      <li>Cloud Mining</li>
+      <li>Billetera Web3</li>
+      <li>Marketplace de Inteligencia Artificial</li>
+      <li>Marketplace Digital</li>
+      <li>Exchange Descentralizado (DEX)</li>
+      <li>Plataforma para desarrolladores</li>
+      <li>Red de pagos</li>
+      <li>Sistema de gobernanza</li>
+    </ul>
+    <p>Cada uno de estos componentes fortalece al resto, creando una economia digital autosostenible donde la utilidad real impulsa la demanda del Token ZTR.</p>
+  </section>
 
-    <div class="chapter">
-        <div class="chapter-num">Chapter 01</div>
-        <h2>Vision and Problem We Solve</h2>
-        <p>The Web3 ecosystem has matured, but most mobile mining projects failed at the same thing: they accumulated millions of users without building a real business model. When listing day came, tokens collapsed within hours because they had no intrinsic utility.</p>
-        <p>Zitro Network was born to solve this systemic failure. We are not simply a mining app. We are a complete financial ecosystem whose ultimate goal is <strong style="color:#dcfc04">Zitro Exchange</strong> — the first crypto exchange built on a base of millions of educated, loyal users with years of accumulated tokens.</p>
+  <section>
+    <h3>Mision</h3>
+    <p>Nuestra mision consiste en eliminar las barreras tecnicas que actualmente impiden que millones de personas participen en las tecnologias descentralizadas. Los usuarios no deberian necesitar conocimientos sobre blockchain, contratos inteligentes o criptografia para beneficiarse de Web3. La tecnologia debe ser practicamente invisible para el usuario.</p>
+    <p>La experiencia debe ser tan sencilla como utilizar cualquier aplicacion movil moderna, manteniendo al mismo tiempo la transparencia, la propiedad de los activos y la descentralizacion que ofrece la tecnologia blockchain.</p>
+  </section>
 
-        <div class="highlight-box">
-            <p>"While our competitors burn venture capital to acquire users, Zitro monetizes its community's attention from Day 1 — funding the Exchange with the network's own advertising revenue."</p>
-            <div class="author">— Zitro Whitepaper V2.0</div>
-        </div>
+  <section>
+    <h3>Principios Fundamentales</h3>
+    <p>El ecosistema Zitro se construye sobre seis principios esenciales.</p>
+    <h4>Accesibilidad</h4>
+    <p>Toda persona que posea un telefono inteligente debe poder participar en el ecosistema, independientemente de su nivel de conocimientos tecnicos o de su ubicacion geografica.</p>
+    <h4>Utilidad antes que Especulacion</h4>
+    <p>El Token ZTR existe para impulsar servicios reales dentro del ecosistema y no unicamente para actividades especulativas. Su valor proviene de la utilidad practica que ofrece.</p>
+    <h4>Descentralizacion Progresiva</h4>
+    <p>En lugar de afirmar una descentralizacion total desde el primer dia, Zitro adopta un modelo de transicion gradual. La infraestructura se descentralizara conforme aumente la adopcion y madure el ecosistema.</p>
+    <h4>Inteligencia Artificial Integrada</h4>
+    <p>La inteligencia artificial no sera un servicio externo. Formara parte del nucleo economico de la plataforma, permitiendo que los desarrolladores publiquen modelos de IA y que los usuarios consuman servicios inteligentes utilizando el Token ZTR.</p>
+    <h4>Seguridad</h4>
+    <p>La seguridad constituye uno de los pilares fundamentales del proyecto. La proteccion de identidades, contratos inteligentes, billeteras e infraestructura sera prioritaria mediante auditorias constantes, monitoreo permanente y buenas practicas de desarrollo.</p>
+    <h4>Sostenibilidad</h4>
+    <p>Los incentivos economicos estaran disenados para recompensar la participacion a largo plazo. La emision del token, la gobernanza y el crecimiento del ecosistema seguiran mecanismos transparentes, previsibles y sostenibles.</p>
+  </section>
 
-        <div class="card-grid">
-            <div class="card"><div class="card-icon">⚡</div><h4>Cloud Mining</h4><p>No hardware consumption. Everything runs on our servers. The user simply activates their session and the system works for them.</p></div>
-            <div class="card"><div class="card-icon">🏦</div><h4>Zitro Exchange</h4><p>The final goal of the ecosystem. An institutional CEX for Latin America and emerging markets, built with network revenue.</p></div>
-            <div class="card"><div class="card-icon">🤖</div><h4>Own AI</h4><p>Development of open-source AI models integrated into the Zitro ecosystem for market analysis and trading automation.</p></div>
-            <div class="card"><div class="card-icon">⛓️</div><h4>Zitro Blockchain</h4><p>In advanced phases, the network migrates to its own blockchain. Projects can create ecosystems and tokens on Zitro infrastructure.</p></div>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="chapter">
-        <div class="chapter-num">Chapter 02</div>
-        <h2>Tokenomics: 10 Billion ZTR</h2>
-        <p>The total supply of ZTR is <strong style="color:#dcfc04">10,000,000,000 (10 billion)</strong>. This number is not random — it is calculated to sustain 6 years of massive mining without exhausting the supply before the Exchange is ready.</p>
-        <table class="token-table">
-            <tr><th>Allocation</th><th>%</th><th>ZTR Tokens</th><th>Purpose</th></tr>
-            <tr><td>Mining & Nodes</td><td class="pct">45%</td><td>4,500,000,000</td><td>User acquisition and network rewards</td></tr>
-            <tr><td>Corporate Reserve</td><td class="pct">25%</td><td>2,500,000,000</td><td>Operations, licenses, servers — locked 3 years</td></tr>
-            <tr><td>Ecosystem & Academy</td><td class="pct">15%</td><td>1,500,000,000</td><td>Learn-to-Earn, certifications, tutors</td></tr>
-            <tr><td>Listing Liquidity</td><td class="pct">10%</td><td>1,000,000,000</td><td>Market Makers, Liquidity Pools</td></tr>
-            <tr><td>Core Team</td><td class="pct">5%</td><td>500,000,000</td><td>Founders and advisors — 12 month vesting lock</td></tr>
-        </table>
-    </div>
-
-    <hr class="divider">
-
-    <div class="chapter">
-        <div class="chapter-num">Chapter 03</div>
-        <h2>Halving Algorithm and Programmed Scarcity</h2>
-        <div class="halving-row"><span class="halving-phase">Phase 1</span><div class="halving-info"><div style="color:#fff;font-weight:600">Pioneers</div><div class="halving-users">0 → 1 Million users</div></div><div class="halving-rate">1.0 ZTR/h</div></div>
-        <div class="halving-row"><span class="halving-phase">Phase 2</span><div class="halving-info"><div style="color:#fff;font-weight:600">Expansion</div><div class="halving-users">1M → 5 Million</div></div><div class="halving-rate">0.5 ZTR/h</div></div>
-        <div class="halving-row"><span class="halving-phase">Phase 3</span><div class="halving-info"><div style="color:#fff;font-weight:600">Critical Mass</div><div class="halving-users">5M → 10 Million</div></div><div class="halving-rate">0.25 ZTR/h</div></div>
-        <div class="halving-row"><span class="halving-phase">Phase 4</span><div class="halving-info"><div style="color:#fff;font-weight:600">Consolidation</div><div class="halving-users">10M → 20 Million</div></div><div class="halving-rate">0.10 ZTR/h</div></div>
-        <div class="halving-row" style="border:none"><span class="halving-phase">Phase 5</span><div class="halving-info"><div style="color:#fff;font-weight:600">Saturation</div><div class="halving-users">20M → 50 Million</div></div><div class="halving-rate">0.05 ZTR/h</div></div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="chapter">
-        <div class="chapter-num">Chapter 04</div>
-        <h2>Referral System and Multipliers</h2>
-        <p>For every active member in your network, your mining rate increases by <strong style="color:#dcfc04">+5%</strong>. The bonus only activates while your referral is mining simultaneously — creating mutual motivation across the community.</p>
-        <div class="card-grid">
-            <div class="card"><div class="card-num">+5%</div><h4>Per active referral</h4><p>Mining speed bonus while your referral mines simultaneously with you.</p></div>
-            <div class="card"><div class="card-num">1,000</div><h4>Maximum referrals</h4><p>Cap of 1,000 active referrals for bonus calculation. Tiered system after 200.</p></div>
-            <div class="card"><div class="card-num">2.5%</div><h4>Referrals 201-1000</h4><p>Reduced bonus for referrals in the second tier, maintaining supply sustainability.</p></div>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="chapter">
-        <div class="chapter-num">Chapter 05</div>
-        <h2>Mining Cycles and Monetization</h2>
-        <div class="card-grid">
-            <div class="card"><div class="card-icon">🌙</div><h4>24 Hour Cycle</h4><p>Passive mode. One activation per day. Base multiplier 1.0x.</p></div>
-            <div class="card"><div class="card-icon">⚡</div><h4>12 Hour Cycle</h4><p>Active mode. Two daily activations. Multiplier 1.2x.</p></div>
-            <div class="card"><div class="card-icon">🔥</div><h4>6 Hour Cycle</h4><p>Hardcore mode. Four daily activations. Multiplier 1.5x. Maximum ZTR accumulation.</p></div>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="chapter">
-        <div class="chapter-num">Chapter 06</div>
-        <h2>Zitro Blockchain and GCV Ecosystem</h2>
-        <p>In the advanced phase, Zitro launches its own blockchain. Any project, company or community can build on Zitro infrastructure.</p>
-        <h3>What is a GCV?</h3>
-        <p>The <strong style="color:#dcfc04">Global Community Value (GCV)</strong> allows any user or project to establish the perceived value of ZTR within their ecosystem. Communities can create internal markets where ZTR operates at the price they determine, generating parallel economies sustained by real token utility.</p>
-        <div class="card-grid">
-            <div class="card"><div class="card-icon">🌐</div><h4>Build Your Ecosystem</h4><p>Projects and companies can launch their own tokens on the Zitro blockchain, using ZTR as the gas and governance token.</p></div>
-            <div class="card"><div class="card-icon">💹</div><h4>P2P Marketplace</h4><p>Decentralized market where users exchange goods, services and tokens using ZTR as payment.</p></div>
-            <div class="card"><div class="card-icon">🤖</div><h4>Open Source AI</h4><p>AI models developed by Zitro, available to the ecosystem for market analysis, price prediction and trading automation.</p></div>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="chapter">
-        <div class="chapter-num">Chapter 07</div>
-        <h2>Roadmap</h2>
-        <div class="roadmap">
-            <div class="roadmap-item">
-                <div class="roadmap-phase">Phase 1 · Months 01–12</div>
-                <h4>Foundation and Traction</h4>
-                <ul>
-                    <li>Launch on Google Play Store and App Store</li>
-                    <li>Mining in 6, 12 and 24 hour cycles with ads</li>
-                    <li>Referral system with multipliers (+5%)</li>
-                    <li>Ping Button for network notifications</li>
-                    <li>Target: 5 million registered users</li>
-                </ul>
-            </div>
-            <div class="roadmap-item">
-                <div class="roadmap-phase">Phase 2 · Months 13–36</div>
-                <h4>Functional Economy and Utility</h4>
-                <ul>
-                    <li>Zitro Trading Academy launch (Learn-to-Earn)</li>
-                    <li>Permanent burn contracts active</li>
-                    <li>Internal Web3 wallet for P2P between users</li>
-                    <li>Internal marketplace with ZTR as payment</li>
-                    <li>Target: 20 million users</li>
-                </ul>
-            </div>
-            <div class="roadmap-item">
-                <div class="roadmap-phase">Phase 3 · Months 37–60</div>
-                <h4>Institutionalization and AI</h4>
-                <ul>
-                    <li>PSAV/VASP regulatory licenses</li>
-                    <li>Open source AI models launch</li>
-                    <li>Private Sale and institutional investment rounds</li>
-                    <li>Exclusive IEO for miners within the app</li>
-                    <li>Smart contract audit (CertiK)</li>
-                </ul>
-            </div>
-            <div class="roadmap-item">
-                <div class="roadmap-phase">Phase 4 · Months 61–72+</div>
-                <h4>Zitro Exchange Mainnet</h4>
-                <ul>
-                    <li>Token Generation Event (TGE) and global listing</li>
-                    <li>Zitro Exchange launch (Spot and Futures)</li>
-                    <li>Zitro own blockchain — GCV ecosystems</li>
-                    <li>Zitro Crypto Card (Visa/Mastercard)</li>
-                    <li>AI integration for real-time market analysis</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="disclaimer">
-        <p><strong>Legal Notice:</strong> This document is for informational purposes only and does not constitute an investment offer. ZTR tokens are rewards for network participation and do not represent regulated financial securities. Participation in the Zitro Network ecosystem implies acceptance of the Terms and Conditions and Privacy Policy available at zitronetwork.com.</p>
-    </div>
-
+  <section>
+    <h3>Objetivo a Largo Plazo</h3>
+    <p>Zitro no pretende convertirse unicamente en otra blockchain. Su objetivo es consolidarse como uno de los ecosistemas digitales descentralizados mas completos del mundo mediante la integracion de pagos digitales, comercio descentralizado, inteligencia artificial, herramientas para desarrolladores, finanzas descentralizadas (DeFi), identidad digital, Cloud Mining e infraestructura blockchain.</p>
+    <p>A traves de este enfoque integral, Zitro busca simplificar el acceso a Web3 mientras crea oportunidades economicas sostenibles para millones de personas alrededor del mundo.</p>
+  </section>
 </div>
 
-<div class="footer" id="footer-en">
-    <div class="logo-big">ZITRO</div>
-    <p>© 2026 Zitro Network. All rights reserved.</p>
-    <p style="margin-top:8px"><a href="https://fedeortiz9.github.io/zitro-privacy-policy/" style="color:#dcfc04;text-decoration:none">Privacy Policy</a> · zitronetwork.com</p>
+<div class="chapter" id="es-2">
+  <div class="chnum">Capitulo 02</div>
+  <h2>El Problema: Por Que Web3 Aun No Ha Logrado La Adopcion Masiva</h2>
+
+  <section>
+    <h3>2.1 Introduccion</h3>
+    <p>Durante los ultimos quince anos, la tecnologia blockchain ha demostrado que es posible construir sistemas financieros abiertos, transparentes y resistentes a la censura. Millones de personas utilizan diariamente criptomonedas, contratos inteligentes y aplicaciones descentralizadas para transferir valor, acceder a servicios financieros o desarrollar nuevos modelos de negocio.</p>
+    <p>Sin embargo, a pesar de este crecimiento, la adopcion global de Web3 continua siendo limitada en comparacion con Internet tradicional. Mientras miles de millones de personas utilizan aplicaciones como redes sociales, servicios de mensajeria o comercio electronico, solo una pequena fraccion participa activamente en el ecosistema blockchain.</p>
+    <p>La razon no es la falta de innovacion tecnologica. El verdadero desafio es la complejidad. Para una persona sin conocimientos tecnicos, comenzar a utilizar Web3 implica comprender conceptos como billeteras digitales, claves privadas, frases de recuperacion, contratos inteligentes, tarifas de red, intercambios descentralizados y multiples blockchains incompatibles entre si.</p>
+    <p>Esta curva de aprendizaje representa una barrera que impide la incorporacion de millones de nuevos usuarios. Zitro Network nace con el objetivo de reducir esa complejidad y ofrecer una experiencia donde la tecnologia blockchain funcione en segundo plano, permitiendo que cualquier persona pueda acceder a los beneficios de la economia descentralizada de forma intuitiva.</p>
+  </section>
+
+  <section>
+    <h3>2.2 Fragmentacion del Ecosistema Digital</h3>
+    <p>Actualmente la economia digital se encuentra altamente fragmentada. Una misma persona suele utilizar diferentes plataformas para realizar actividades relacionadas entre si. Por ejemplo:</p>
+    <ul>
+      <li>Una billetera para almacenar activos digitales.</li>
+      <li>Un exchange para comprar criptomonedas.</li>
+      <li>Otro exchange para intercambiar tokens.</li>
+      <li>Una plataforma distinta para acceder a aplicaciones descentralizadas.</li>
+      <li>Un servicio independiente para utilizar inteligencia artificial.</li>
+      <li>Un marketplace diferente para vender productos o servicios.</li>
+      <li>Otra aplicacion para administrar pagos.</li>
+    </ul>
+    <p>Cada plataforma requiere un proceso de registro independiente, diferentes interfaces y distintos mecanismos de seguridad. Esta fragmentacion reduce la eficiencia del ecosistema y dificulta la adopcion masiva.</p>
+    <p>Zitro propone un enfoque diferente. En lugar de desarrollar un unico producto, busca integrar multiples servicios dentro de un mismo ecosistema, permitiendo que el usuario acceda desde una sola aplicacion a herramientas de pagos, inteligencia artificial, comercio digital, servicios Web3 y aplicaciones descentralizadas.</p>
+  </section>
+
+  <section>
+    <h3>2.3 El Desafio de la Confianza Digital</h3>
+    <p>La rapida evolucion de la inteligencia artificial generativa ha transformado profundamente Internet. Actualmente resulta cada vez mas dificil distinguir entre una interaccion realizada por una persona y aquella generada automaticamente por sistemas de IA. Bots automatizados, contenido sintetico y procesos completamente automatizados participan diariamente en plataformas digitales, redes sociales y mercados en linea.</p>
+    <p>Este escenario crea nuevos desafios para la seguridad, la reputacion y la confianza entre usuarios. Zitro considera que la identidad verificable sera uno de los pilares fundamentales de la proxima generacion de plataformas descentralizadas.</p>
+    <p>Por este motivo, el ecosistema incorpora un modelo progresivo de verificacion de identidad basado en procesos KYC y mecanismos adicionales de validacion destinados a reducir ataques Sybil y la creacion masiva de cuentas fraudulentas.</p>
+    <p>El objetivo no consiste unicamente en cumplir requisitos regulatorios. Tambien busca proteger la integridad economica del ecosistema, garantizar una distribucion mas justa de los incentivos y favorecer una comunidad formada por usuarios reales.</p>
+  </section>
+
+  <section>
+    <h3>2.4 Limitaciones de la Infraestructura Actual</h3>
+    <p>Las principales redes blockchain existentes representan un enorme avance tecnologico. Sin embargo, fueron disenadas para resolver problemas especificos y no necesariamente para ofrecer una experiencia integrada al usuario final. Muchas aplicaciones Web3 dependen simultaneamente de multiples protocolos, proveedores externos y diferentes servicios para completar operaciones sencillas, lo que incrementa la complejidad del desarrollo, aumenta los costos de integracion y dificulta la experiencia de uso.</p>
+    <p>Durante su primera etapa, Zitro aprovechara la seguridad, descentralizacion y liquidez de BNB Chain, permitiendo que el Token ZTR opere sobre una infraestructura ampliamente adoptada por la industria. Esta estrategia permite concentrar los esfuerzos iniciales en el desarrollo del ecosistema y la adquisicion de usuarios, en lugar de destinar recursos prematuramente al mantenimiento de una blockchain propia.</p>
+    <p>Cuando el ecosistema alcance la madurez suficiente y exista una actividad economica significativa dentro de la plataforma, la comunidad podra evaluar la evolucion hacia una infraestructura blockchain propia, disenada especificamente para las necesidades del ecosistema Zitro.</p>
+  </section>
+
+  <section>
+    <h3>2.5 Acceso Limitado a la Economia Digital</h3>
+    <p>Millones de personas continuan encontrando dificultades para acceder a herramientas financieras modernas. Las barreras economicas, tecnologicas y geograficas limitan la participacion en la economia digital global. En muchas regiones, el telefono movil constituye el principal dispositivo de acceso a Internet. Por ello, Zitro adopta una estrategia centrada en dispositivos moviles.</p>
+    <p>El sistema de Cloud Mining permite que los usuarios participen en la distribucion inicial del Token ZTR sin requerir hardware especializado ni consumir recursos intensivos de procesamiento en sus dispositivos. Este mecanismo elimina gran parte de las barreras tecnicas presentes en otros modelos de mineria tradicionales y facilita una incorporacion progresiva al ecosistema.</p>
+    <p>Mas alla de la distribucion del token, el verdadero objetivo es introducir al usuario en un conjunto de servicios digitales que incluyen pagos, comercio electronico, aplicaciones descentralizadas, herramientas de inteligencia artificial y futuras funcionalidades desarrolladas por la comunidad.</p>
+  </section>
+
+  <section>
+    <h3>2.6 La Oportunidad</h3>
+    <p>La convergencia entre blockchain, inteligencia artificial, finanzas descentralizadas y economia digital representa una oportunidad unica para construir plataformas mucho mas completas que las existentes en la actualidad.</p>
+    <p>En lugar de competir unicamente como una criptomoneda o como una blockchain independiente, Zitro busca convertirse en una infraestructura capaz de integrar diferentes servicios dentro de una experiencia unificada. Cada nuevo componente del ecosistema incrementa la utilidad del Token ZTR y fortalece la actividad economica interna.</p>
+    <p>A medida que mas usuarios, desarrolladores y comercios participen en la plataforma, el ecosistema generara un efecto de red que impulsara la creacion de nuevos servicios, aplicaciones y oportunidades de innovacion.</p>
+  </section>
+</div>
+
+<div class="chapter" id="es-3">
+  <div class="chnum">Capitulo 03</div>
+  <h2>Arquitectura del Ecosistema Zitro</h2>
+
+  <section>
+    <h3>3.1 Vision General</h3>
+    <p>Zitro Network ha sido disenado como un ecosistema modular donde cada componente aporta valor al resto de la infraestructura. En lugar de desarrollar aplicaciones independientes, la plataforma integra servicios financieros, inteligencia artificial, comercio digital y tecnologias Web3 dentro de una arquitectura unificada.</p>
+    <p>Este enfoque permite que cada nuevo servicio incremente la utilidad del Token ZTR y fortalezca el crecimiento del ecosistema mediante un efecto de red.</p>
+    <p>Durante la primera etapa, toda la infraestructura operara sobre BNB Chain, utilizando el Token ZTR bajo el estandar BEP-20. Esta estrategia permite aprovechar una blockchain ampliamente consolidada, ofreciendo seguridad, liquidez, interoperabilidad y compatibilidad inmediata con billeteras, exchanges y herramientas utilizadas por millones de personas.</p>
+    <p>A medida que la plataforma alcance una adopcion significativa, la comunidad podra evaluar la migracion hacia una blockchain propia, disenada especificamente para soportar las necesidades del ecosistema Zitro.</p>
+    <p>La arquitectura se compone de ocho pilares principales:</p>
+    <ul>
+      <li>Token ZTR</li>
+      <li>Sistema de Cloud Mining</li>
+      <li>Billetera Web3</li>
+      <li>Marketplace Digital</li>
+      <li>Plataforma de Inteligencia Artificial</li>
+      <li>Plataforma para desarrolladores y dApps</li>
+      <li>Zitro DEX</li>
+      <li>Infraestructura Blockchain</li>
+    </ul>
+    <p>Cada uno de estos componentes ha sido concebido para funcionar de manera independiente, pero tambien para integrarse de forma nativa con el resto del ecosistema.</p>
+  </section>
+
+  <section>
+    <h3>3.2 Token ZTR</h3>
+    <p>El Token ZTR constituye el activo digital que impulsa toda la economia de Zitro Network. Su funcion no se limita a representar una criptomoneda, sino que actua como el medio de intercambio comun entre todos los servicios disponibles dentro de la plataforma. Desde su lanzamiento, el token podra utilizarse para:</p>
+    <ul>
+      <li>Comprar y vender productos dentro del Marketplace.</li>
+      <li>Pagar herramientas y servicios de Inteligencia Artificial.</li>
+      <li>Acceder a aplicaciones descentralizadas.</li>
+      <li>Participar en el intercambio de activos dentro del Zitro DEX.</li>
+      <li>Pagar comisiones de la plataforma.</li>
+      <li>Participar en programas de staking.</li>
+      <li>Votar propuestas de gobernanza.</li>
+      <li>Recompensar desarrolladores, creadores de contenido y colaboradores del ecosistema.</li>
+    </ul>
+    <p>El objetivo es que el valor del Token ZTR provenga principalmente de su utilidad practica y no exclusivamente de la especulacion del mercado.</p>
+  </section>
+
+  <section>
+    <h3>3.3 Sistema de Cloud Mining</h3>
+    <p>Con el proposito de facilitar la incorporacion de nuevos usuarios al ecosistema, Zitro implementara un sistema de Cloud Mining. A diferencia de los modelos tradicionales de mineria, este sistema no requiere que el dispositivo movil realice procesos intensivos de calculo ni consuma grandes cantidades de bateria o recursos del hardware.</p>
+    <p>Las recompensas seran gestionadas mediante la infraestructura de Zitro y distribuidas conforme a reglas transparentes definidas por el protocolo y la politica de emision del Token ZTR. La participacion en el programa estara asociada al cumplimiento de requisitos establecidos por la plataforma, incluyendo la verificacion de identidad, el cumplimiento de las politicas comunitarias y la prevencion de actividades fraudulentas.</p>
+    <p>Este mecanismo busca distribuir progresivamente el token entre los primeros participantes del ecosistema y fomentar una comunidad amplia antes de la transicion hacia una infraestructura completamente descentralizada.</p>
+  </section>
+
+  <section>
+    <h3>3.4 Billetera Zitro Wallet</h3>
+    <p>La Zitro Wallet constituye el punto de acceso principal al ecosistema. Desde una unica aplicacion, los usuarios podran administrar sus activos digitales e interactuar con los distintos servicios disponibles. Entre sus principales funciones se incluyen:</p>
+    <ul>
+      <li>Administracion del Token ZTR.</li>
+      <li>Compatibilidad con otros activos digitales compatibles con BNB Chain.</li>
+      <li>Recepcion y envio de criptomonedas.</li>
+      <li>Acceso al Marketplace.</li>
+      <li>Conexion con aplicaciones descentralizadas.</li>
+      <li>Integracion con el Zitro DEX.</li>
+      <li>Acceso a servicios de Inteligencia Artificial.</li>
+      <li>Gestion de staking y gobernanza.</li>
+    </ul>
+    <p>La experiencia de usuario sera uno de los principales objetivos del desarrollo, reduciendo la complejidad habitual de las aplicaciones Web3 mediante una interfaz intuitiva y orientada al publico general.</p>
+  </section>
+
+  <section>
+    <h3>3.5 Marketplace Descentralizado</h3>
+    <p>El Marketplace representa uno de los principales motores economicos de Zitro Network. Permitira que usuarios, comercios y empresas publiquen productos fisicos, servicios digitales, software, cursos, activos digitales y soluciones basadas en Inteligencia Artificial.</p>
+    <p>Todas las operaciones podran liquidarse utilizando el Token ZTR como medio principal de pago. Con el tiempo, el Marketplace incorporara herramientas avanzadas como sistemas de reputacion, pagos protegidos mediante contratos inteligentes y resolucion descentralizada de disputas.</p>
+    <p>El objetivo es construir una economia digital donde el Token ZTR tenga una utilidad constante en actividades comerciales reales.</p>
+  </section>
+
+  <section>
+    <h3>3.6 Plataforma de Inteligencia Artificial</h3>
+    <p>La Inteligencia Artificial constituye uno de los componentes estrategicos de Zitro Network. Mas que ofrecer un asistente conversacional, la plataforma busca crear un mercado descentralizado donde desarrolladores puedan publicar modelos de IA, agentes inteligentes, automatizaciones y herramientas especializadas.</p>
+    <p>Los usuarios podran acceder a estos servicios utilizando el Token ZTR como metodo de pago. Este modelo permitira generar nuevas oportunidades economicas para desarrolladores, empresas y creadores de contenido, al mismo tiempo que incrementara la utilidad del ecosistema. En etapas posteriores podran incorporarse funcionalidades como:</p>
+    <ul>
+      <li>Asistentes personales.</li>
+      <li>Agentes autonomos.</li>
+      <li>Automatizacion empresarial.</li>
+      <li>Herramientas para programacion.</li>
+      <li>Generacion de contenido.</li>
+      <li>Analisis financiero.</li>
+      <li>Servicios especializados desarrollados por terceros.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>3.7 Plataforma para Desarrolladores</h3>
+    <p>El crecimiento sostenible del ecosistema dependera en gran medida de su comunidad de desarrolladores. Por ello, Zitro ofrecera herramientas destinadas a facilitar la creacion de nuevas aplicaciones sobre la plataforma. Entre ellas se incluiran:</p>
+    <ul>
+      <li>SDK oficial.</li>
+      <li>API publicas.</li>
+      <li>Documentacion tecnica.</li>
+      <li>Contratos inteligentes de referencia.</li>
+      <li>Programas de subvenciones (Grants).</li>
+      <li>Hackathons.</li>
+      <li>Programas para startups.</li>
+    </ul>
+    <p>El objetivo es fomentar una comunidad capaz de construir soluciones innovadoras que amplien continuamente el ecosistema.</p>
+  </section>
+
+  <section>
+    <h3>3.8 Zitro DEX</h3>
+    <p>El Zitro DEX sera el intercambio descentralizado nativo del ecosistema. Basado en protocolos de creadores de mercado automatizados (AMM), permitira intercambiar el Token ZTR con otros activos digitales sin necesidad de intermediarios. El protocolo estara disenado para ofrecer:</p>
+    <ul>
+      <li>Intercambios rapidos.</li>
+      <li>Comisiones competitivas.</li>
+      <li>Pools de liquidez.</li>
+      <li>Staking.</li>
+      <li>Farming.</li>
+      <li>Integracion directa con la Zitro Wallet.</li>
+    </ul>
+    <p>La liquidez sera respaldada mediante contratos inteligentes auditados y mecanismos destinados a favorecer la estabilidad del ecosistema.</p>
+  </section>
+
+  <section>
+    <h3>3.9 Evolucion hacia una Blockchain Propia</h3>
+    <p>Aunque Zitro iniciara su recorrido utilizando la infraestructura de BNB Chain, la arquitectura ha sido concebida para evolucionar progresivamente hacia una blockchain propia cuando existan condiciones tecnicas y economicas que justifiquen esta transicion.</p>
+    <p>La futura blockchain tendra como objetivo optimizar procesos que actualmente resultan complejos o costosos en redes generalistas. Entre sus prioridades estaran:</p>
+    <ul>
+      <li>Optimizacion para aplicaciones moviles.</li>
+      <li>Alto rendimiento para micropagos.</li>
+      <li>Integracion nativa con servicios de Inteligencia Artificial.</li>
+      <li>Infraestructura especializada para marketplaces descentralizados.</li>
+      <li>Identidad digital verificable.</li>
+      <li>Gobernanza completamente descentralizada.</li>
+      <li>Compatibilidad mediante puentes con las principales redes blockchain.</li>
+    </ul>
+    <p>La migracion solo se llevara a cabo cuando el ecosistema cuente con una comunidad consolidada, suficiente actividad economica y una red de validadores capaz de garantizar la seguridad y descentralizacion del protocolo.</p>
+  </section>
+</div>
+
+<div class="chapter" id="es-4">
+  <div class="chnum">Capitulo 04</div>
+  <h2>Economia del Token (Tokenomics)</h2>
+
+  <section>
+    <h3>4.1 Filosofia Economica</h3>
+    <p>El Token ZTR constituye el activo digital que impulsa toda la economia de Zitro Network. Su diseno economico ha sido desarrollado bajo tres principios fundamentales: sostenibilidad a largo plazo, utilidad real dentro del ecosistema y distribucion progresiva y transparente.</p>
+    <p>A diferencia de modelos basados unicamente en la especulacion del mercado, el objetivo de ZTR es convertirse en el medio de intercambio de todos los servicios ofrecidos por Zitro Network. Cada nueva funcionalidad incorporada al ecosistema incrementara la demanda potencial del token, fortaleciendo una economia basada en el uso real de la plataforma.</p>
+  </section>
+
+  <section>
+    <h3>4.2 Emision Maxima</h3>
+    <div class="figure">
+      <div class="label">Suministro maximo</div>
+      <div class="value">10.000.000.000 ZTR</div>
+    </div>
+    <p>Este limite nunca podra incrementarse mediante decisiones administrativas o emisiones extraordinarias. La existencia de un suministro maximo proporciona previsibilidad para los usuarios y establece un marco economico transparente desde el inicio del proyecto.</p>
+    <p>La emision se realizara de forma gradual durante varios anos, evitando una distribucion inmediata que pueda generar desequilibrios economicos.</p>
+  </section>
+
+  <section>
+    <h3>4.3 Distribucion Inicial</h3>
+    <p>La distribucion propuesta busca equilibrar el crecimiento de la comunidad, el desarrollo tecnologico y la sostenibilidad financiera del proyecto.</p>
+    <table class="dist">
+      <tr><th>Destino</th><th>Porcentaje</th></tr>
+      <tr><td>Recompensas Cloud Mining</td><td class="pct">45%</td></tr>
+      <tr><td>Ecosistema e IA</td><td class="pct">20%</td></tr>
+      <tr><td>Liquidez y DEX</td><td class="pct">15%</td></tr>
+      <tr><td>Equipo fundador</td><td class="pct">10%</td></tr>
+      <tr><td>Fundacion Zitro</td><td class="pct">10%</td></tr>
+    </table>
+
+    <h4>Recompensas Cloud Mining (45%)</h4>
+    <p>La mayor parte del suministro estara destinada a distribuir el token entre los usuarios que participen activamente en el ecosistema durante los primeros anos del proyecto. Las recompensas se liberaran de manera progresiva durante un periodo estimado de 72 meses, permitiendo construir una comunidad amplia y evitando una concentracion temprana del suministro.</p>
+
+    <h4>Ecosistema e Inteligencia Artificial (20%)</h4>
+    <p>Esta reserva financiara el crecimiento del ecosistema mediante desarrollo del Marketplace, herramientas de Inteligencia Artificial, subvenciones para desarrolladores, integracion de nuevas tecnologias, infraestructura tecnica, auditorias y programas para startups. Todos los movimientos realizados desde esta reserva seran publicados periodicamente mediante informes de transparencia.</p>
+
+    <h4>Liquidez (15%)</h4>
+    <p>Una economia descentralizada necesita liquidez suficiente para funcionar correctamente. Esta reserva estara destinada a la creacion de pools de liquidez, listado en exchanges descentralizados, integracion con exchanges centralizados cuando corresponda e incentivos para proveedores de liquidez. La utilizacion de estos fondos estara orientada a favorecer mercados saludables y reducir problemas de baja liquidez durante las primeras etapas del proyecto.</p>
+
+    <h4>Equipo Fundador (10%)</h4>
+    <p>El equipo fundador recibira una asignacion limitada del suministro total. Estos tokens permaneceran bloqueados mediante contratos inteligentes con un sistema de vesting lineal de 48 meses. Este mecanismo busca alinear los intereses del equipo con el crecimiento del proyecto y evitar presiones de venta durante las primeras etapas del ecosistema.</p>
+
+    <h4>Fundacion Zitro (10%)</h4>
+    <p>La Fundacion Zitro administrara una reserva destinada al crecimiento del ecosistema, entre cuyas funciones se incluyen programas educativos, subvenciones comunitarias, organizacion de hackathons, auditorias externas, investigacion tecnologica y expansion internacional. La Fundacion actuara como una entidad de apoyo al ecosistema y no como propietaria de la red.</p>
+  </section>
+
+  <section>
+    <h3>4.4 Utilidad del Token</h3>
+    <p>El valor de una criptomoneda depende de la utilidad que ofrece dentro de su ecosistema. Por ello, el Token ZTR podra utilizarse para comprar productos dentro del Marketplace, vender bienes y servicios, pagar herramientas de Inteligencia Artificial, acceder a agentes inteligentes, utilizar aplicaciones descentralizadas, pagar comisiones del DEX, realizar staking, participar en la gobernanza, recompensar desarrolladores y creadores de contenido, y pagar futuras comisiones de la blockchain Zitro.</p>
+    <p>El objetivo es que cada servicio disponible dentro del ecosistema incremente la demanda natural del token.</p>
+  </section>
+
+  <section>
+    <h3>4.5 Reduccion Programada de Emisiones</h3>
+    <p>La distribucion de nuevas recompensas disminuira progresivamente conforme madure el ecosistema. En lugar de mantener una emision constante, Zitro implementara un mecanismo de reduccion periodica de recompensas (Halving). Cada reduccion disminuira la cantidad de nuevos ZTR distribuidos mediante Cloud Mining.</p>
+    <p>Este mecanismo busca controlar la inflacion, incentivar la adopcion temprana, proteger la sostenibilidad economica y favorecer una transicion gradual hacia una economia basada en la utilidad del token. Los parametros especificos de cada reduccion seran definidos por la gobernanza y publicados con suficiente antelacion para garantizar transparencia y previsibilidad.</p>
+  </section>
+
+  <section>
+    <h3>4.6 Modelo Economico</h3>
+    <p>Durante las primeras etapas, la mayor parte de la actividad economica estara impulsada por la distribucion inicial del Token ZTR. Sin embargo, el objetivo a largo plazo es que la economia evolucione hacia un modelo donde el valor generado provenga principalmente de los servicios del ecosistema: comisiones del Marketplace, servicios de Inteligencia Artificial, operaciones del DEX, aplicaciones desarrolladas por terceros, soluciones empresariales, servicios premium e infraestructura para desarrolladores.</p>
+    <p>De esta forma, el crecimiento del proyecto dependera cada vez menos de la emision de nuevos tokens y mas del uso efectivo de la plataforma.</p>
+  </section>
+
+  <section>
+    <h3>4.7 Sostenibilidad</h3>
+    <p>El diseno economico de Zitro busca equilibrar tres objetivos fundamentales: incentivar la adopcion durante las primeras etapas, favorecer el desarrollo continuo del ecosistema y construir una economia sostenible a largo plazo basada en servicios reales.</p>
+    <p>La combinacion de un suministro maximo fijo, una emision progresiva, mecanismos de reduccion de recompensas y una amplia utilidad para el Token ZTR constituye la base economica sobre la que se desarrollara Zitro Network.</p>
+  </section>
+</div>
+
+<div class="chapter" id="es-5">
+  <div class="chnum">Capitulo 05</div>
+  <h2>Sistema de Participacion, Cloud Mining y Crecimiento de la Red</h2>
+
+  <section>
+    <h3>5.1 Introduccion</h3>
+    <p>La construccion de una economia descentralizada requiere una distribucion amplia y progresiva de su activo digital. Historicamente, muchos proyectos blockchain han distribuido sus tokens mediante mineria tradicional, preventas privadas o asignaciones concentradas para grandes inversores. Estos modelos suelen generar barreras de entrada y una distribucion desigual del suministro.</p>
+    <p>Zitro adopta un enfoque diferente. Durante la primera etapa del proyecto, la distribucion del Token ZTR se realizara principalmente mediante un sistema de Cloud Mining, disenado para facilitar la incorporacion de nuevos usuarios al ecosistema sin exigir conocimientos tecnicos, hardware especializado ni inversiones iniciales.</p>
+    <p>El objetivo no es recompensar la capacidad de computo, sino incentivar la participacion activa dentro de la plataforma y construir una comunidad global desde sus primeras fases.</p>
+  </section>
+
+  <section>
+    <h3>5.2 Cloud Mining: Un Modelo Orientado a la Adopcion</h3>
+    <p>El sistema de Cloud Mining permite que cualquier usuario participe en la distribucion inicial del Token ZTR utilizando unicamente la aplicacion oficial de Zitro. A diferencia de la mineria tradicional, el dispositivo movil no ejecuta calculos criptograficos complejos ni consume recursos significativos de procesamiento o bateria.</p>
+    <p>Las recompensas son gestionadas por la infraestructura del protocolo y asignadas conforme a criterios transparentes de participacion. Este enfoque reduce considerablemente las barreras de entrada y hace posible que millones de personas puedan incorporarse al ecosistema utilizando unicamente un telefono movil.</p>
+    <p>El Cloud Mining representa la puerta de entrada al ecosistema, pero no constituye el objetivo final del proyecto. A medida que Zitro evolucione, el protagonismo economico se trasladara progresivamente hacia el Marketplace, la Inteligencia Artificial, las aplicaciones descentralizadas y los servicios financieros desarrollados sobre la plataforma.</p>
+  </section>
+
+  <section>
+    <h3>5.3 Participacion Verificable</h3>
+    <p>El crecimiento sostenible de una red depende de la calidad de su comunidad. Por este motivo, Zitro busca incentivar la participacion legitima de usuarios reales mediante un modelo denominado Participacion Verificable.</p>
+    <p>Las recompensas no dependeran exclusivamente del tiempo de permanencia en la aplicacion, sino tambien de la interaccion con el ecosistema. Entre los factores que podran considerarse se encuentran la verificacion de identidad, la actividad dentro de la plataforma, la utilizacion de servicios, la participacion en la comunidad, la interaccion con aplicaciones descentralizadas, la colaboracion en programas oficiales y la contribucion al crecimiento del ecosistema.</p>
+    <p>Este enfoque busca favorecer la creacion de una comunidad activa y comprometida con el desarrollo de la plataforma.</p>
+  </section>
+
+  <section>
+    <h3>5.4 Identidad Digital y Prevencion de Fraude</h3>
+    <p>Uno de los principales desafios de las plataformas que distribuyen activos digitales es la creacion masiva de cuentas falsas. Estas practicas generan una distribucion injusta de las recompensas y afectan negativamente a los usuarios legitimos.</p>
+    <p>Para reducir este riesgo, Zitro implementara un proceso de verificacion de identidad (KYC) antes de habilitar determinadas funcionalidades del ecosistema, como la migracion de tokens, el acceso a ciertas recompensas o la participacion en mecanismos de gobernanza. Asimismo, la plataforma incorporara herramientas para detectar comportamientos anomalos y prevenir ataques Sybil, automatizaciones maliciosas y otras formas de fraude.</p>
+    <p>El objetivo es proteger la integridad del ecosistema sin comprometer la experiencia del usuario.</p>
+  </section>
+
+  <section>
+    <h3>5.5 Programa de Referidos</h3>
+    <p>La expansion de Zitro estara impulsada principalmente por el crecimiento organico de su comunidad. Para fomentar este crecimiento, la plataforma contara con un programa de referidos disenado para recompensar a quienes inviten nuevos usuarios.</p>
+    <p>Las recompensas estaran sujetas a condiciones destinadas a garantizar la calidad de la red y evitar la creacion de cuentas falsas, entre ellas la verificacion de identidad del usuario referido, la actividad minima dentro de la plataforma, el cumplimiento de las politicas comunitarias y la validacion de autenticidad.</p>
+    <p>Ademas, el sistema podra ajustar progresivamente las recompensas conforme aumente el tamano de la red, evitando una inflacion excesiva y favoreciendo una distribucion mas sostenible del Token ZTR.</p>
+  </section>
+
+  <section>
+    <h3>5.6 Evolucion del Modelo de Recompensas</h3>
+    <p>Durante las primeras etapas del proyecto, el Cloud Mining constituira el principal mecanismo de distribucion del Token ZTR. Sin embargo, conforme el ecosistema incorpore nuevos servicios, las fuentes de generacion de valor se diversificaran: provision de liquidez, staking, desarrollo de aplicaciones, publicacion de herramientas de Inteligencia Artificial, participacion en programas de innovacion, creacion de contenido educativo, resolucion de desafios tecnicos y contribucion a la gobernanza.</p>
+    <p>Esta evolucion permitira que la economia del ecosistema dependa cada vez menos de la emision de nuevos tokens y cada vez mas de la creacion de valor real.</p>
+  </section>
+
+  <section>
+    <h3>5.7 Transicion hacia una Economia Basada en Servicios</h3>
+    <p>El objetivo de Zitro no es mantener indefinidamente un modelo de recompensas por incorporacion. El Cloud Mining constituye una herramienta para acelerar la adopcion durante las primeras etapas del proyecto.</p>
+    <p>A medida que la plataforma alcance una mayor madurez, el crecimiento economico estara impulsado principalmente por el uso de sus servicios, incluyendo el Marketplace, la plataforma de Inteligencia Artificial, el Zitro DEX, las aplicaciones descentralizadas y futuras soluciones desarrolladas por la comunidad. Esta transicion busca construir una economia sostenible donde el valor del Token ZTR provenga de la actividad economica generada dentro del ecosistema.</p>
+  </section>
+
+  <section>
+    <h3>5.8 Una Comunidad como Infraestructura</h3>
+    <p>En la vision de Zitro, la comunidad representa uno de los activos mas importantes del proyecto. Cada nuevo usuario no solo incrementa el alcance de la plataforma, sino que tambien fortalece la red mediante nuevas interacciones, comercios, desarrolladores, creadores de contenido y oportunidades de innovacion.</p>
+    <p>El exito del ecosistema dependera de la capacidad de transformar una comunidad de usuarios en una comunidad de constructores. Por ello, Zitro fomentara programas de formacion, hackatones, incentivos para desarrolladores, embajadores regionales y mecanismos de gobernanza que permitan a la comunidad participar activamente en la evolucion del proyecto.</p>
+  </section>
+</div>
+
+<div class="chapter" id="es-6">
+  <div class="chnum">Capitulo 06</div>
+  <h2>Evolucion del Ecosistema y Desarrollo de la Red</h2>
+
+  <section>
+    <h3>6.1 Construyendo Antes de Descentralizar</h3>
+    <p>Uno de los mayores desafios de muchos proyectos blockchain consiste en lanzar una infraestructura completamente descentralizada antes de contar con usuarios, aplicaciones o actividad economica suficiente para sostenerla. En muchos casos esto provoca redes con escasa utilizacion, baja participacion de validadores y una economia basada unicamente en la especulacion.</p>
+    <p>Zitro adopta un enfoque diferente. La prioridad inicial no sera construir una blockchain propia, sino desarrollar un ecosistema util que resuelva problemas reales para personas, comercios y desarrolladores. Solo cuando exista una comunidad solida, aplicaciones funcionando y una economia activa, la evolucion hacia una infraestructura blockchain propia tendra sentido tecnico y economico.</p>
+    <p>Este modelo reduce riesgos, optimiza los recursos del proyecto y permite concentrar los esfuerzos en generar utilidad desde el primer dia.</p>
+  </section>
+
+  <section>
+    <h3>6.2 Primera Etapa: Construccion del Ecosistema</h3>
+    <p>Durante la primera etapa, el Token ZTR funcionara sobre BNB Chain, una de las redes blockchain mas consolidadas y utilizadas del mundo. Esta decision ofrece multiples ventajas: los usuarios podran almacenar sus activos utilizando billeteras ampliamente conocidas y compatibles con el estandar BEP-20, y los desarrolladores podran integrar el Token ZTR utilizando herramientas existentes, reduciendo significativamente los tiempos de desarrollo.</p>
+    <p>Al mismo tiempo, Zitro podra concentrar sus recursos en la creacion de productos y servicios, en lugar de destinar una parte importante del presupuesto al mantenimiento de una blockchain propia. En esta fase se desarrollaran progresivamente Cloud Mining, Zitro Wallet, Marketplace, la plataforma de Inteligencia Artificial, la plataforma para desarrolladores, el Zitro DEX, programas de embajadores y herramientas de gobernanza.</p>
+    <p>El objetivo principal sera construir una economia funcional antes de construir una nueva infraestructura blockchain.</p>
+  </section>
+
+  <section>
+    <h3>6.3 Consolidacion del Ecosistema</h3>
+    <p>Una vez que los principales servicios esten operativos, la prioridad pasara de adquirir usuarios a aumentar la actividad economica dentro de la plataforma. El exito de Zitro no dependera unicamente del numero de usuarios registrados, sino de indicadores como usuarios activos mensuales, volumen de transacciones, comercios que aceptan ZTR, desarrolladores que publican aplicaciones, uso de herramientas de Inteligencia Artificial, liquidez del DEX y participacion en la gobernanza.</p>
+    <p>Estos indicadores reflejan mejor la salud del ecosistema que una simple cifra de registros. El crecimiento sostenible se medira por el uso real de la plataforma.</p>
+  </section>
+
+  <section>
+    <h3>6.4 Hacia una Blockchain Propia</h3>
+    <p>La creacion de una blockchain propia no constituye un objetivo inmediato, sino una evolucion natural del proyecto. La migracion solo sera considerada cuando el ecosistema demuestre que una infraestructura propia aportara ventajas reales frente a continuar utilizando una red consolidada.</p>
+    <p>Entre los factores que podrian justificar esta transicion se encuentran el crecimiento sostenido de usuarios activos, el elevado volumen diario de transacciones, el aumento del uso del Marketplace y del DEX, la necesidad de optimizar costos operativos, la mayor demanda de aplicaciones de Inteligencia Artificial y la existencia de una comunidad capaz de operar nodos validadores.</p>
+    <p>Solo en ese escenario una blockchain propia permitira ofrecer un mayor rendimiento, reducir costos de operacion y adaptar el protocolo a las necesidades especificas del ecosistema.</p>
+  </section>
+
+  <section>
+    <h3>6.5 Principios de la Blockchain Zitro</h3>
+    <p>La futura infraestructura blockchain de Zitro sera disenada para resolver necesidades concretas del ecosistema.</p>
+    <h4>Optimizacion para dispositivos moviles</h4>
+    <p>El protocolo priorizara una experiencia eficiente para usuarios que interactuan principalmente desde telefonos inteligentes.</p>
+    <h4>Alto rendimiento para micropagos</h4>
+    <p>La red buscara facilitar pagos rapidos y de bajo costo entre usuarios, comercios y aplicaciones.</p>
+    <h4>Integracion nativa con Inteligencia Artificial</h4>
+    <p>La blockchain estara preparada para interactuar con servicios de IA desarrollados dentro del ecosistema, facilitando pagos automaticos, ejecucion de agentes inteligentes y registro verificable de operaciones.</p>
+    <h4>Identidad Digital</h4>
+    <p>La infraestructura permitira integrar mecanismos de identidad verificable que reduzcan el fraude y fortalezcan la confianza entre los participantes.</p>
+    <h4>Interoperabilidad</h4>
+    <p>La red mantendra compatibilidad con otras blockchains mediante puentes y estandares abiertos, evitando crear un ecosistema aislado.</p>
+  </section>
+
+  <section>
+    <h3>6.6 Descentralizacion Progresiva</h3>
+    <p>La descentralizacion no debe entenderse como un estado que se alcanza el primer dia, sino como un proceso continuo. A medida que la comunidad crezca, mas funciones seran gestionadas directamente por los participantes de la red.</p>
+    <p>Esta evolucion incluira progresivamente validadores independientes, mayor participacion comunitaria en la gobernanza, auditorias abiertas, herramientas para desarrolladores externos y mejoras propuestas y aprobadas por la comunidad. Este enfoque busca construir una infraestructura solida sin comprometer la estabilidad del ecosistema durante sus primeras etapas.</p>
+  </section>
+
+  <section>
+    <h3>6.7 Una Infraestructura Disenada para Durar</h3>
+    <p>La vision de Zitro es construir una plataforma capaz de evolucionar durante las proximas decadas. Por ello, cada decision tecnologica se tomara considerando no solo las necesidades actuales, sino tambien la capacidad del ecosistema para adaptarse a nuevas tecnologias, modelos de negocio y cambios en la economia digital.</p>
+    <p>El objetivo no es crear una blockchain mas. El objetivo es construir una infraestructura que permita a millones de personas acceder de forma sencilla a pagos digitales, comercio electronico, aplicaciones descentralizadas, inteligencia artificial y nuevos servicios que aun estan por desarrollarse.</p>
+  </section>
+</div>
+
+<div class="chapter" id="es-7">
+  <div class="chnum">Capitulo 07</div>
+  <h2>Gobernanza y Desarrollo del Ecosistema</h2>
+
+  <section>
+    <h3>7.1 Una Plataforma Construida Junto a su Comunidad</h3>
+    <p>El crecimiento de una plataforma descentralizada no depende unicamente de su tecnologia. Tambien depende de la capacidad de su comunidad para participar en su evolucion.</p>
+    <p>Muchas plataformas comienzan con un equipo reducido que toma todas las decisiones. Sin embargo, a medida que el ecosistema crece, ese modelo deja de ser suficiente para representar los intereses de miles o millones de usuarios.</p>
+    <p>Zitro adopta un modelo de gobernanza progresiva. Durante las primeras etapas, el equipo fundador sera responsable del desarrollo tecnico, la seguridad y la ejecucion del roadmap. Con el crecimiento del ecosistema, la comunidad adquirira un papel cada vez mas importante en la toma de decisiones estrategicas.</p>
+    <p>Este proceso permitira que la evolucion del proyecto sea gradual, transparente y orientada a las necesidades reales de sus usuarios.</p>
+  </section>
+
+  <section>
+    <h3>7.2 Fundacion Zitro</h3>
+    <p>La Fundacion Zitro sera una organizacion dedicada a impulsar el crecimiento sostenible del ecosistema. Su funcion principal sera coordinar iniciativas que beneficien a toda la comunidad, promoviendo el desarrollo tecnologico, la educacion y la adopcion de la plataforma.</p>
+    <p>Entre sus principales responsabilidades estaran: promover la adopcion global del ecosistema, apoyar programas educativos, financiar investigaciones, coordinar auditorias de seguridad, administrar programas para desarrolladores, organizar eventos y hackatones, y colaborar con universidades, empresas y organizaciones tecnologicas.</p>
+    <p>La Fundacion no administrara los activos de los usuarios ni controlara la red. Su papel sera impulsar el desarrollo del ecosistema y fomentar la colaboracion entre todos los participantes.</p>
+  </section>
+
+  <section>
+    <h3>7.3 Gobernanza mediante el Token ZTR</h3>
+    <p>El Token ZTR permitira que los usuarios participen progresivamente en determinadas decisiones relacionadas con el ecosistema. A medida que la plataforma evolucione, podran incorporarse mecanismos de votacion para temas como la incorporacion de nuevas funcionalidades, las prioridades del roadmap, la asignacion de fondos destinados al desarrollo del ecosistema, los programas para desarrolladores y las iniciativas comunitarias.</p>
+    <p>El objetivo es que las decisiones estrategicas sean cada vez mas participativas, manteniendo al mismo tiempo la estabilidad tecnica de la plataforma.</p>
+  </section>
+
+  <section>
+    <h3>7.4 Apoyo a Desarrolladores</h3>
+    <p>El exito de una plataforma Web3 depende de su capacidad para atraer desarrolladores. Por este motivo, Zitro impulsara programas destinados a facilitar la creacion de nuevas aplicaciones y servicios, incluyendo subvenciones para proyectos innovadores, hackatones, documentacion tecnica abierta, herramientas de desarrollo, programas de capacitacion y acompanamiento para equipos emergentes.</p>
+    <p>Cada nueva aplicacion construida sobre Zitro incrementara el valor del ecosistema y ampliara las posibilidades para sus usuarios.</p>
+  </section>
+
+  <section>
+    <h3>7.5 Seguridad y Transparencia</h3>
+    <p>La confianza es uno de los activos mas importantes de cualquier proyecto blockchain. Por ello, Zitro promovera una cultura basada en la transparencia y la mejora continua. Siempre que sea posible, las actualizaciones importantes, auditorias, informes de desarrollo y decisiones relevantes seran comunicados publicamente.</p>
+    <p>Asimismo, se fomentara la realizacion de auditorias externas sobre contratos inteligentes e infraestructura critica antes del lanzamiento de nuevas funcionalidades. La seguridad no debe considerarse una tarea puntual, sino un proceso permanente que acompane la evolucion del ecosistema.</p>
+  </section>
+
+  <section>
+    <h3>7.6 Programa de Incentivos para la Comunidad</h3>
+    <p>El crecimiento de Zitro dependera de la participacion activa de miles de personas alrededor del mundo. Por ello, la plataforma desarrollara programas de reconocimiento para quienes contribuyan al ecosistema, incluyendo incentivos para desarrolladores, creadores de contenido, traductores, educadores, embajadores regionales, investigadores de seguridad y colaboradores comunitarios.</p>
+    <p>El objetivo es construir una comunidad que no solo utilice la plataforma, sino que tambien participe activamente en su crecimiento.</p>
+  </section>
+
+  <section>
+    <h3>7.7 Un Ecosistema Impulsado por la Colaboracion</h3>
+    <p>Las tecnologias descentralizadas evolucionan con rapidez. Por ello, Zitro buscara mantener una arquitectura abierta que facilite la colaboracion entre desarrolladores, empresas, instituciones educativas y comunidades tecnologicas.</p>
+    <p>La innovacion no dependera exclusivamente del equipo fundador. El crecimiento del proyecto estara impulsado por una comunidad capaz de aportar nuevas ideas, desarrollar aplicaciones y crear soluciones que amplien continuamente las posibilidades del ecosistema.</p>
+  </section>
+</div>
+
+<div class="chapter" id="es-8">
+  <div class="chnum">Capitulo 08</div>
+  <h2>Seguridad, Identidad Digital e Infraestructura</h2>
+
+  <section>
+    <h3>8.1 La Confianza como Base del Ecosistema</h3>
+    <p>La adopcion de tecnologias descentralizadas depende de un elemento fundamental: la confianza. Los usuarios solo utilizaran una plataforma para almacenar activos, realizar pagos o interactuar con aplicaciones descentralizadas si perciben que su informacion y sus fondos estan protegidos.</p>
+    <p>Por ello, la seguridad no sera considerada una caracteristica adicional de Zitro, sino un principio presente en cada componente del ecosistema. Desde el diseno de la infraestructura hasta el desarrollo de contratos inteligentes, todas las funcionalidades buscaran reducir riesgos y ofrecer una experiencia confiable para usuarios, desarrolladores y empresas.</p>
+  </section>
+
+  <section>
+    <h3>8.2 Seguridad desde el Diseno</h3>
+    <p>La seguridad sera incorporada desde las primeras etapas del desarrollo y no unicamente antes del lanzamiento de nuevas funciones. Cada componente del ecosistema seguira buenas practicas de desarrollo, revision de codigo y auditorias antes de su implementacion. Entre las medidas previstas se incluyen la revision continua del codigo fuente, auditorias independientes de contratos inteligentes, pruebas de seguridad antes de cada actualizacion importante, monitoreo permanente de la infraestructura y programas de recompensa por reporte de vulnerabilidades (Bug Bounty).</p>
+    <p>El objetivo es detectar y corregir posibles fallos antes de que afecten a la comunidad.</p>
+  </section>
+
+  <section>
+    <h3>8.3 Identidad Digital</h3>
+    <p>Uno de los mayores desafios de las plataformas descentralizadas es equilibrar la privacidad del usuario con la necesidad de proteger el ecosistema frente al fraude. Durante las primeras etapas de Zitro, determinadas funcionalidades requeriran procesos de verificacion de identidad (KYC), especialmente aquellas relacionadas con la migracion de tokens, el acceso a determinadas recompensas y el cumplimiento de requisitos regulatorios cuando corresponda.</p>
+    <p>La finalidad del proceso de verificacion no sera recopilar informacion innecesaria, sino garantizar que las recompensas del ecosistema lleguen a personas reales y reducir la creacion masiva de cuentas falsas. En el futuro, Zitro explorara tecnologias de identidad digital descentralizada (Decentralized Identity o DID) que permitan ofrecer mayores niveles de privacidad y control sobre los datos personales.</p>
+  </section>
+
+  <section>
+    <h3>8.4 Proteccion frente a Cuentas Fraudulentas</h3>
+    <p>Las plataformas que distribuyen activos digitales suelen enfrentarse a intentos de manipulacion mediante bots, automatizaciones o multiples cuentas creadas por una misma persona. Estas practicas afectan directamente la sostenibilidad del proyecto y perjudican a quienes participan de forma legitima.</p>
+    <p>Para reducir este riesgo, Zitro implementara mecanismos de deteccion basados en el analisis de comportamiento, validaciones automaticas y procesos de verificacion cuando sea necesario. Estas herramientas estaran orientadas a proteger la integridad del ecosistema sin afectar la experiencia de los usuarios legitimos.</p>
+  </section>
+
+  <section>
+    <h3>8.5 Proteccion de los Activos Digitales</h3>
+    <p>El diseno del ecosistema buscara que los usuarios mantengan el control sobre sus activos siempre que sea posible. Durante la etapa inicial, el Token ZTR funcionara sobre BNB Chain, permitiendo utilizar billeteras compatibles con este estandar, lo que ofrece compatibilidad con herramientas ampliamente utilizadas por la comunidad, mayor facilidad para mover activos entre plataformas compatibles, integracion sencilla con aplicaciones descentralizadas y menor dependencia de infraestructura propietaria.</p>
+    <p>A medida que Zitro evolucione, cualquier nueva infraestructura mantendra como prioridad la seguridad de los activos y la posibilidad de que los usuarios conserven el control de sus claves cuando la tecnologia utilizada lo permita.</p>
+  </section>
+
+  <section>
+    <h3>8.6 Infraestructura Escalable</h3>
+    <p>La infraestructura tecnologica de Zitro sera disenada para evolucionar junto con el crecimiento del ecosistema. Durante las primeras etapas, la plataforma aprovechara servicios ampliamente probados para garantizar disponibilidad, estabilidad y rendimiento.</p>
+    <p>Conforme aumente la actividad del ecosistema, la arquitectura podra incorporar nuevas capas de infraestructura orientadas a mejorar la eficiencia, reducir costos operativos y facilitar la descentralizacion progresiva. Este enfoque permite que el proyecto crezca de manera sostenible sin comprometer la experiencia del usuario.</p>
+  </section>
+
+  <section>
+    <h3>8.7 Integracion con Fuentes de Informacion Externas</h3>
+    <p>Muchas aplicaciones descentralizadas necesitan acceder a informacion proveniente del mundo real, como precios de activos, tipos de cambio, eventos o datos de otros sistemas. Cuando sea necesario, Zitro integrara servicios especializados capaces de proporcionar esta informacion de forma verificable para su utilizacion por contratos inteligentes y aplicaciones del ecosistema.</p>
+    <p>Estas integraciones permitiran ampliar las posibilidades de desarrollo sin comprometer la seguridad de la plataforma.</p>
+  </section>
+
+  <section>
+    <h3>8.8 Seguridad como un Proceso Continuo</h3>
+    <p>La seguridad no finaliza con el lanzamiento de una aplicacion. Las amenazas evolucionan constantemente, al igual que las tecnologias utilizadas para proteger los sistemas. Por este motivo, Zitro promovera una estrategia de mejora continua basada en auditorias periodicas, actualizacion constante de la infraestructura, colaboracion con investigadores de seguridad, programas de recompensa por deteccion de vulnerabilidades y revision permanente de contratos inteligentes y componentes criticos.</p>
+    <p>La proteccion del ecosistema sera un proceso permanente que evolucionara junto con la plataforma.</p>
+  </section>
+</div>
+
+<div class="chapter" id="es-9">
+  <div class="chnum">Capitulo 09</div>
+  <h2>Estrategia de Adopcion y Crecimiento del Ecosistema</h2>
+
+  <section>
+    <h3>9.1 Mas Alla de una Criptomoneda</h3>
+    <p>El exito de un proyecto blockchain no depende unicamente de su tecnologia, sino de su capacidad para resolver problemas cotidianos y generar una comunidad activa. Miles de proyectos han desarrollado tokens tecnicamente solidos que nunca lograron una adopcion significativa porque carecian de casos de uso reales.</p>
+    <p>La estrategia de Zitro parte de un principio diferente: construir una plataforma que las personas utilicen por los servicios que ofrece y no unicamente por la posibilidad de obtener un activo digital. El Token ZTR sera un elemento central del ecosistema, pero su crecimiento estara impulsado por el uso de aplicaciones, herramientas y soluciones que aporten valor en la vida diaria.</p>
+  </section>
+
+  <section>
+    <h3>9.2 Un Ecosistema Pensado para Diferentes Usuarios</h3>
+    <p>La economia digital esta formada por perfiles con necesidades muy distintas. Por ello, Zitro busca desarrollar un ecosistema capaz de generar valor para multiples tipos de usuarios.</p>
+    <h4>Usuarios particulares</h4>
+    <p>Podran acceder a una plataforma sencilla para explorar el ecosistema Web3, realizar pagos, utilizar herramientas de inteligencia artificial, acceder al Marketplace y participar en programas de recompensas.</p>
+    <h4>Comercios</h4>
+    <p>Dispondran de una alternativa para aceptar pagos digitales, ampliar sus canales de venta y acceder a nuevos clientes mediante el Marketplace.</p>
+    <h4>Desarrolladores</h4>
+    <p>Encontraran una infraestructura abierta sobre la que podran crear aplicaciones, integrar servicios y generar ingresos mediante sus propios productos.</p>
+    <h4>Empresas</h4>
+    <p>Podran incorporar soluciones blockchain e inteligencia artificial sin necesidad de desarrollar toda la infraestructura desde cero.</p>
+    <p>Este enfoque permite que el crecimiento del ecosistema no dependa de un unico tipo de usuario.</p>
+  </section>
+
+  <section>
+    <h3>9.3 Crecimiento Basado en Utilidad</h3>
+    <p>Muchos proyectos centran su estrategia en campanas de marketing agresivas para aumentar el numero de registros. Sin embargo, una gran cantidad de usuarios registrados no garantiza una comunidad activa.</p>
+    <p>La estrategia de Zitro prioriza indicadores que reflejan el uso real de la plataforma, como usuarios activos, volumen de operaciones, comercios integrados, aplicaciones desarrolladas, utilizacion de herramientas de inteligencia artificial, actividad dentro del Marketplace y liquidez del ecosistema. El objetivo es construir una comunidad que participe de forma constante y no unicamente durante el lanzamiento del proyecto.</p>
+  </section>
+
+  <section>
+    <h3>9.4 Impulsando la Innovacion</h3>
+    <p>Un ecosistema crece cuando otras personas pueden construir sobre el. Por ello, Zitro fomentara la creacion de nuevas soluciones mediante programas orientados a desarrolladores, emprendedores y empresas tecnologicas, incluyendo programas de subvenciones, hackatones, incubacion de proyectos, documentacion tecnica, herramientas de desarrollo y programas de formacion.</p>
+    <p>Cada nueva aplicacion amplia el valor del ecosistema y genera nuevas oportunidades para toda la comunidad.</p>
+  </section>
+
+  <section>
+    <h3>9.5 Expansion Internacional</h3>
+    <p>Zitro sera disenado como una plataforma con alcance global. Su infraestructura buscara facilitar la incorporacion de usuarios de diferentes paises mediante una experiencia sencilla, documentacion en varios idiomas y herramientas adaptadas a distintos mercados.</p>
+    <p>La estrategia de expansion priorizara regiones con alto crecimiento en adopcion de activos digitales y economias donde las soluciones financieras descentralizadas puedan aportar un valor diferencial. La comunidad desempenara un papel fundamental en este proceso mediante programas de embajadores, eventos locales y actividades educativas.</p>
+  </section>
+
+  <section>
+    <h3>9.6 Educacion como Motor de Adopcion</h3>
+    <p>La falta de conocimiento continua siendo una de las principales barreras para la adopcion de tecnologias blockchain. Muchas personas encuentran complejos conceptos como billeteras digitales, contratos inteligentes o aplicaciones descentralizadas.</p>
+    <p>Para reducir esta barrera, Zitro impulsara recursos educativos dirigidos tanto a nuevos usuarios como a desarrolladores, incluyendo cursos, tutoriales, documentacion interactiva, talleres, seminarios en linea y programas de certificacion. Una comunidad informada puede utilizar mejor las herramientas disponibles y contribuir al crecimiento sostenible del ecosistema.</p>
+  </section>
+
+  <section>
+    <h3>9.7 Construyendo una Economia Sostenible</h3>
+    <p>El crecimiento de Zitro no estara basado exclusivamente en la distribucion inicial del Token ZTR. Conforme el ecosistema evolucione, el valor generado provendra principalmente de la actividad economica desarrollada dentro de la plataforma.</p>
+    <p>El Marketplace, las aplicaciones descentralizadas, las herramientas de inteligencia artificial, los servicios para empresas y las futuras soluciones desarrolladas por terceros seran los principales motores de esta economia. Este enfoque busca reducir la dependencia de la emision de nuevos tokens y fortalecer un modelo basado en la creacion de valor real.</p>
+  </section>
+
+  <section>
+    <h3>9.8 Vision a Largo Plazo</h3>
+    <p>La vision de Zitro es convertirse en una plataforma donde blockchain, inteligencia artificial y comercio digital trabajen de forma integrada para ofrecer soluciones accesibles a usuarios, desarrolladores y empresas.</p>
+    <p>El crecimiento del ecosistema no se medira unicamente por el valor de mercado del Token ZTR, sino por la capacidad de generar una comunidad activa, una infraestructura tecnologica solida y un entorno donde la innovacion pueda desarrollarse de manera sostenible. Cada nueva aplicacion, comercio, desarrollador y usuario fortalecera una red cuyo objetivo final es facilitar el acceso a la economia digital descentralizada.</p>
+  </section>
+</div>
+
+<div class="chapter" id="es-10">
+  <div class="chnum">Capitulo 10</div>
+  <h2>Gestion de Riesgos y Sostenibilidad del Proyecto</h2>
+
+  <section>
+    <h3>10.1 La Importancia de Gestionar los Riesgos</h3>
+    <p>Todo proyecto tecnologico enfrenta desafios durante su desarrollo. En el ambito de blockchain, estos riesgos pueden estar relacionados con la tecnologia, la seguridad, la regulacion, la adopcion del mercado o la evolucion de la economia digital.</p>
+    <p>Reconocer estos desafios desde el inicio permite tomar decisiones mas responsables y construir una plataforma preparada para adaptarse a un entorno en constante cambio. La estrategia de Zitro no consiste en eliminar completamente los riesgos, sino en identificarlos, reducir su impacto y responder con rapidez cuando sea necesario.</p>
+  </section>
+
+  <section>
+    <h3>10.2 Riesgo de Adopcion</h3>
+    <p>Uno de los mayores desafios para cualquier proyecto Web3 es lograr que las personas utilicen la plataforma de forma constante. Muchos proyectos consiguen atraer usuarios durante su lanzamiento, pero posteriormente experimentan una disminucion significativa de la actividad debido a la falta de utilidad.</p>
+    <p>Para reducir este riesgo, Zitro centrara su crecimiento en el desarrollo continuo de productos y servicios que generen valor para distintos perfiles de usuarios. El exito del ecosistema dependera de que las personas encuentren razones para seguir utilizando la plataforma mas alla de la distribucion inicial del Token ZTR.</p>
+  </section>
+
+  <section>
+    <h3>10.3 Riesgo Tecnologico</h3>
+    <p>Las tecnologias blockchain evolucionan rapidamente. Nuevas soluciones, estandares y protocolos aparecen cada ano, modificando la forma en que se desarrollan las aplicaciones descentralizadas.</p>
+    <p>Para mantener la competitividad, Zitro adoptara una arquitectura modular que facilite la incorporacion de nuevas tecnologias sin necesidad de reconstruir toda la infraestructura. Este enfoque permitira adaptar el ecosistema a las necesidades del mercado y aprovechar los avances tecnologicos conforme se consoliden.</p>
+  </section>
+
+  <section>
+    <h3>10.4 Riesgo de Seguridad</h3>
+    <p>La proteccion de los usuarios constituye una prioridad para cualquier plataforma que gestione activos digitales. Errores en contratos inteligentes, vulnerabilidades de software o ataques informaticos pueden afectar tanto a la confianza como al funcionamiento del ecosistema.</p>
+    <p>Para reducir estos riesgos, Zitro promovera auditorias independientes, revisiones periodicas del codigo, monitoreo continuo de la infraestructura y programas de recompensas para investigadores que reporten vulnerabilidades de forma responsable. La seguridad sera un proceso permanente y no una actividad limitada al lanzamiento del proyecto.</p>
+  </section>
+
+  <section>
+    <h3>10.5 Riesgo Regulatorio</h3>
+    <p>El marco regulatorio aplicable a los activos digitales continua evolucionando en numerosos paises. Cambios en la legislacion podrian afectar determinados servicios ofrecidos por plataformas blockchain.</p>
+    <p>Por este motivo, Zitro procurara desarrollar su infraestructura de forma flexible, permitiendo adaptar determinados procesos cuando las normativas locales asi lo requieran. El objetivo sera favorecer el cumplimiento de la legislacion aplicable sin comprometer los principios fundamentales de transparencia, descentralizacion e innovacion.</p>
+  </section>
+
+  <section>
+    <h3>10.6 Riesgo Economico</h3>
+    <p>El mercado de activos digitales se caracteriza por una elevada volatilidad. Las variaciones de precio forman parte del funcionamiento normal de este tipo de mercados y pueden influir en la percepcion del proyecto durante distintas etapas de su desarrollo.</p>
+    <p>La estrategia de Zitro busca reducir la dependencia de factores puramente especulativos mediante la construccion de un ecosistema donde el Token ZTR tenga una utilidad creciente en servicios, aplicaciones y soluciones desarrolladas sobre la plataforma. A largo plazo, una economia basada en casos de uso reales resulta mas sostenible que un modelo impulsado unicamente por expectativas de mercado.</p>
+  </section>
+
+  <section>
+    <h3>10.7 Riesgo Operativo</h3>
+    <p>El crecimiento acelerado puede representar un desafio para cualquier organizacion. La incorporacion de nuevos usuarios, desarrolladores y socios requiere procesos internos capaces de mantener la calidad del servicio.</p>
+    <p>Para afrontar este reto, Zitro impulsara una estrategia de crecimiento gradual, fortaleciendo la infraestructura y los equipos de trabajo conforme aumente la actividad del ecosistema. Este enfoque busca garantizar que la expansion de la plataforma vaya acompanada de la capacidad necesaria para ofrecer una experiencia estable y segura.</p>
+  </section>
+
+  <section>
+    <h3>10.8 Compromiso con la Mejora Continua</h3>
+    <p>La gestion de riesgos no constituye una etapa puntual del desarrollo, sino un proceso permanente. La evolucion del ecosistema estara acompanada por la revision continua de procesos, tecnologias y mecanismos de seguridad con el objetivo de adaptarse a nuevos desafios y aprovechar oportunidades de mejora.</p>
+    <p>La capacidad de aprender, innovar y evolucionar sera uno de los pilares fundamentales para el crecimiento sostenible de Zitro Network.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h3>Conclusion</h3>
+    <p>El desarrollo de una infraestructura blockchain implica afrontar desafios tecnicos, economicos y regulatorios que evolucionan constantemente. Zitro asume estos retos como parte natural de la innovacion tecnologica y orientara sus esfuerzos a construir un ecosistema resiliente, transparente y preparado para adaptarse a un entorno dinamico.</p>
+    <p>La confianza de la comunidad dependera no solo de la tecnologia desarrollada, sino tambien de la capacidad del proyecto para gestionar los riesgos con responsabilidad y mantener una vision de largo plazo.</p>
+  </section>
+</div>
+
+<footer>
+  <p>Zitro Network</p>
+  <p>White Paper v2.0 &middot; 30 de junio de 2026</p>
+</footer>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     ENGLISH
+     ══════════════════════════════════════════════════════════════════ -->
+<div class="lang-en">
+
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#en-1">Executive Summary</a></li>
+    <li><a href="#en-2">The Problem: Why Web3 Has Not Yet Achieved Mass Adoption</a></li>
+    <li><a href="#en-3">Architecture of the Zitro Ecosystem</a></li>
+    <li><a href="#en-4">Token Economics (Tokenomics)</a></li>
+    <li><a href="#en-5">Participation System, Cloud Mining and Network Growth</a></li>
+    <li><a href="#en-6">Ecosystem Evolution and Network Development</a></li>
+    <li><a href="#en-7">Governance and Ecosystem Development</a></li>
+    <li><a href="#en-8">Security, Digital Identity and Infrastructure</a></li>
+    <li><a href="#en-9">Adoption and Growth Strategy</a></li>
+    <li><a href="#en-10">Risk Management and Project Sustainability</a></li>
+  </ol>
+</nav>
+
+<div class="chapter" id="en-1">
+  <div class="chnum">Chapter 01</div>
+  <h2>Executive Summary</h2>
+
+  <section>
+    <h3>Introduction</h3>
+    <p class="lead">The digital economy has evolved rapidly over the last decade. Blockchain technology, artificial intelligence, decentralized finance and digital marketplaces have transformed the way people exchange value and access services. Yet these innovations remain fragmented across hundreds of independent platforms.</p>
+    <p>Today, an average user needs multiple applications to take part in the digital economy:</p>
+    <ul>
+      <li>One application to store digital assets.</li>
+      <li>Another to buy cryptocurrencies.</li>
+      <li>Another to swap tokens.</li>
+      <li>Another to use decentralized applications (dApps).</li>
+      <li>Another to access artificial intelligence services.</li>
+      <li>Another to sell products or services online.</li>
+    </ul>
+    <p>This fragmentation adds complexity, slows mass adoption, and limits access to the Web3 ecosystem for billions of people.</p>
+    <p>Zitro Network exists to solve this problem. Rather than building yet another cryptocurrency or an isolated blockchain, Zitro has been conceived as an integrated Web3 ecosystem where users can access decentralized financial services, artificial intelligence, digital commerce and blockchain tools from a single platform.</p>
+    <p>The project's first stage will consist of launching the ZTR Token on BNB Chain, leveraging one of the world's most established blockchain infrastructures and avoiding the technical and economic risks of launching a proprietary chain from day one.</p>
+    <p>As the ecosystem reaches meaningful levels of adoption and economic activity, Zitro will progressively evolve toward its own blockchain, designed specifically for mobile users, artificial intelligence applications and decentralized commerce.</p>
+  </section>
+
+  <section>
+    <h3>Vision</h3>
+    <p>Zitro aims to become the infrastructure that powers the next generation of decentralized digital services. Rather than focusing solely on a cryptocurrency, the ecosystem integrates multiple technologies within a single user experience, including:</p>
+    <ul>
+      <li>Cloud Mining</li>
+      <li>Web3 Wallet</li>
+      <li>Artificial Intelligence Marketplace</li>
+      <li>Digital Marketplace</li>
+      <li>Decentralized Exchange (DEX)</li>
+      <li>Developer platform</li>
+      <li>Payments network</li>
+      <li>Governance system</li>
+    </ul>
+    <p>Each of these components reinforces the rest, creating a self-sustaining digital economy where real utility drives demand for the ZTR Token.</p>
+  </section>
+
+  <section>
+    <h3>Mission</h3>
+    <p>Our mission is to remove the technical barriers that currently prevent millions of people from taking part in decentralized technologies. Users should not need to understand blockchain, smart contracts or cryptography to benefit from Web3. The technology should be effectively invisible to the user.</p>
+    <p>The experience should be as simple as using any modern mobile application, while preserving the transparency, asset ownership and decentralization that blockchain technology provides.</p>
+  </section>
+
+  <section>
+    <h3>Core Principles</h3>
+    <p>The Zitro ecosystem is built on six essential principles.</p>
+    <h4>Accessibility</h4>
+    <p>Anyone with a smartphone should be able to participate in the ecosystem, regardless of their technical knowledge or geographic location.</p>
+    <h4>Utility Before Speculation</h4>
+    <p>The ZTR Token exists to power real services within the ecosystem, not solely for speculative activity. Its value derives from the practical utility it provides.</p>
+    <h4>Progressive Decentralization</h4>
+    <p>Rather than claiming full decentralization from day one, Zitro adopts a gradual transition model. The infrastructure will decentralize as adoption grows and the ecosystem matures.</p>
+    <h4>Integrated Artificial Intelligence</h4>
+    <p>Artificial intelligence will not be an external service. It will be part of the platform's economic core, allowing developers to publish AI models and users to consume intelligent services using the ZTR Token.</p>
+    <h4>Security</h4>
+    <p>Security is one of the project's core pillars. Protecting identities, smart contracts, wallets and infrastructure will be a priority through constant audits, ongoing monitoring and sound development practices.</p>
+    <h4>Sustainability</h4>
+    <p>Economic incentives will be designed to reward long-term participation. Token issuance, governance and ecosystem growth will follow transparent, predictable and sustainable mechanisms.</p>
+  </section>
+
+  <section>
+    <h3>Long-Term Objective</h3>
+    <p>Zitro does not aim to become just another blockchain. Its goal is to establish itself as one of the most complete decentralized digital ecosystems in the world by integrating digital payments, decentralized commerce, artificial intelligence, developer tools, decentralized finance (DeFi), digital identity, Cloud Mining and blockchain infrastructure.</p>
+    <p>Through this comprehensive approach, Zitro seeks to simplify access to Web3 while creating sustainable economic opportunities for millions of people around the world.</p>
+  </section>
+</div>
+
+<div class="chapter" id="en-2">
+  <div class="chnum">Chapter 02</div>
+  <h2>The Problem: Why Web3 Has Not Yet Achieved Mass Adoption</h2>
+
+  <section>
+    <h3>2.1 Introduction</h3>
+    <p>Over the past fifteen years, blockchain technology has proven that it is possible to build open, transparent and censorship-resistant financial systems. Millions of people use cryptocurrencies, smart contracts and decentralized applications daily to transfer value, access financial services, or build new business models.</p>
+    <p>Yet despite this growth, global Web3 adoption remains limited compared to traditional Internet usage. While billions of people use applications such as social networks, messaging services or e-commerce, only a small fraction actively participates in the blockchain ecosystem.</p>
+    <p>The reason is not a lack of technological innovation. The real challenge is complexity. For someone without technical knowledge, getting started with Web3 means understanding concepts such as digital wallets, private keys, recovery phrases, smart contracts, network fees, decentralized exchanges and multiple incompatible blockchains.</p>
+    <p>This learning curve represents a barrier that keeps millions of new users away. Zitro Network was created to reduce that complexity and deliver an experience where blockchain technology runs in the background, allowing anyone to access the benefits of the decentralized economy intuitively.</p>
+  </section>
+
+  <section>
+    <h3>2.2 Fragmentation of the Digital Ecosystem</h3>
+    <p>Today's digital economy is highly fragmented. The same person often needs different platforms to carry out related activities. For example:</p>
+    <ul>
+      <li>A wallet to store digital assets.</li>
+      <li>An exchange to buy cryptocurrencies.</li>
+      <li>Another exchange to swap tokens.</li>
+      <li>A separate platform to access decentralized applications.</li>
+      <li>An independent service to use artificial intelligence.</li>
+      <li>A different marketplace to sell products or services.</li>
+      <li>Another application to manage payments.</li>
+    </ul>
+    <p>Each platform requires an independent sign-up process, different interfaces and different security mechanisms. This fragmentation reduces the ecosystem's efficiency and hinders mass adoption.</p>
+    <p>Zitro proposes a different approach: instead of building a single product, it seeks to integrate multiple services within one ecosystem, letting users access payments, artificial intelligence, digital commerce, Web3 services and decentralized applications from a single application.</p>
+  </section>
+
+  <section>
+    <h3>2.3 The Challenge of Digital Trust</h3>
+    <p>The rapid evolution of generative artificial intelligence has profoundly transformed the Internet. It is now increasingly difficult to distinguish an interaction carried out by a person from one generated automatically by AI systems. Automated bots, synthetic content and fully automated processes participate daily in digital platforms, social networks and online marketplaces.</p>
+    <p>This scenario creates new challenges for security, reputation and trust among users. Zitro believes that verifiable identity will be one of the fundamental pillars of the next generation of decentralized platforms.</p>
+    <p>For this reason, the ecosystem incorporates a progressive identity-verification model based on KYC processes and additional validation mechanisms designed to reduce Sybil attacks and the mass creation of fraudulent accounts.</p>
+    <p>The goal is not solely to meet regulatory requirements. It also seeks to protect the economic integrity of the ecosystem, ensure a fairer distribution of incentives, and favor a community made up of real users.</p>
+  </section>
+
+  <section>
+    <h3>2.4 Limitations of Current Infrastructure</h3>
+    <p>Existing major blockchain networks represent an enormous technological advance. However, they were designed to solve specific problems and not necessarily to offer an integrated experience for the end user. Many Web3 applications simultaneously depend on multiple protocols, external providers and different services to complete simple operations, which increases development complexity, raises integration costs and hinders usability.</p>
+    <p>During its first stage, Zitro will leverage the security, decentralization and liquidity of BNB Chain, allowing the ZTR Token to operate on infrastructure widely adopted by the industry. This strategy allows initial efforts to focus on ecosystem development and user acquisition, rather than prematurely allocating resources to maintaining a proprietary blockchain.</p>
+    <p>Once the ecosystem reaches sufficient maturity and significant economic activity exists within the platform, the community will be able to evaluate the evolution toward a proprietary blockchain infrastructure, designed specifically for the needs of the Zitro ecosystem.</p>
+  </section>
+
+  <section>
+    <h3>2.5 Limited Access to the Digital Economy</h3>
+    <p>Millions of people continue to face difficulties accessing modern financial tools. Economic, technological and geographic barriers limit participation in the global digital economy. In many regions, the mobile phone is the primary device for accessing the Internet. For this reason, Zitro adopts a mobile-first strategy.</p>
+    <p>The Cloud Mining system allows users to take part in the initial distribution of the ZTR Token without requiring specialized hardware or intensive processing resources on their devices. This mechanism removes much of the technical barriers present in traditional mining models and facilitates a progressive onboarding into the ecosystem.</p>
+    <p>Beyond token distribution, the real goal is to introduce users to a set of digital services that include payments, e-commerce, decentralized applications, artificial intelligence tools and future functionality developed by the community.</p>
+  </section>
+
+  <section>
+    <h3>2.6 The Opportunity</h3>
+    <p>The convergence of blockchain, artificial intelligence, decentralized finance and the digital economy represents a unique opportunity to build platforms far more complete than those existing today.</p>
+    <p>Instead of competing solely as a cryptocurrency or an independent blockchain, Zitro seeks to become an infrastructure capable of integrating different services within a unified experience. Every new component of the ecosystem increases the utility of the ZTR Token and strengthens internal economic activity.</p>
+    <p>As more users, developers and merchants join the platform, the ecosystem will generate a network effect that drives the creation of new services, applications and innovation opportunities.</p>
+  </section>
+</div>
+
+<div class="chapter" id="en-3">
+  <div class="chnum">Chapter 03</div>
+  <h2>Architecture of the Zitro Ecosystem</h2>
+
+  <section>
+    <h3>3.1 Overview</h3>
+    <p>Zitro Network has been designed as a modular ecosystem where each component adds value to the rest of the infrastructure. Instead of developing independent applications, the platform integrates financial services, artificial intelligence, digital commerce and Web3 technologies within a unified architecture.</p>
+    <p>This approach allows each new service to increase the utility of the ZTR Token and strengthen ecosystem growth through a network effect.</p>
+    <p>During the first stage, the entire infrastructure will operate on BNB Chain, using the ZTR Token under the BEP-20 standard. This strategy leverages a widely established blockchain, offering security, liquidity, interoperability and immediate compatibility with wallets, exchanges and tools used by millions of people.</p>
+    <p>As the platform achieves significant adoption, the community will be able to evaluate migrating to a proprietary blockchain, designed specifically to support the needs of the Zitro ecosystem.</p>
+    <p>The architecture is composed of eight main pillars:</p>
+    <ul>
+      <li>ZTR Token</li>
+      <li>Cloud Mining System</li>
+      <li>Web3 Wallet</li>
+      <li>Digital Marketplace</li>
+      <li>Artificial Intelligence Platform</li>
+      <li>Developer and dApp Platform</li>
+      <li>Zitro DEX</li>
+      <li>Blockchain Infrastructure</li>
+    </ul>
+    <p>Each of these components has been designed to function independently, but also to integrate natively with the rest of the ecosystem.</p>
+  </section>
+
+  <section>
+    <h3>3.2 ZTR Token</h3>
+    <p>The ZTR Token is the digital asset that powers the entire Zitro Network economy. Its role is not limited to representing a cryptocurrency; it acts as the common medium of exchange across all services available on the platform. From its launch, the token can be used to:</p>
+    <ul>
+      <li>Buy and sell products within the Marketplace.</li>
+      <li>Pay for Artificial Intelligence tools and services.</li>
+      <li>Access decentralized applications.</li>
+      <li>Take part in asset exchange within the Zitro DEX.</li>
+      <li>Pay platform fees.</li>
+      <li>Participate in staking programs.</li>
+      <li>Vote on governance proposals.</li>
+      <li>Reward developers, content creators and ecosystem collaborators.</li>
+    </ul>
+    <p>The goal is for the value of the ZTR Token to derive primarily from its practical utility, not exclusively from market speculation.</p>
+  </section>
+
+  <section>
+    <h3>3.3 Cloud Mining System</h3>
+    <p>To make it easier for new users to join the ecosystem, Zitro will implement a Cloud Mining system. Unlike traditional mining models, this system does not require the mobile device to perform intensive computation or consume large amounts of battery or hardware resources.</p>
+    <p>Rewards are managed through Zitro's infrastructure and distributed according to transparent rules defined by the protocol and the ZTR Token issuance policy. Participation in the program will be tied to meeting requirements set by the platform, including identity verification, compliance with community policies and fraud prevention.</p>
+    <p>This mechanism seeks to progressively distribute the token among the ecosystem's earliest participants and foster a broad community ahead of the transition toward a fully decentralized infrastructure.</p>
+  </section>
+
+  <section>
+    <h3>3.4 Zitro Wallet</h3>
+    <p>The Zitro Wallet is the main access point to the ecosystem. From a single application, users will be able to manage their digital assets and interact with the platform's various services. Its main functions include:</p>
+    <ul>
+      <li>Management of the ZTR Token.</li>
+      <li>Compatibility with other BNB Chain-compatible digital assets.</li>
+      <li>Receiving and sending cryptocurrencies.</li>
+      <li>Access to the Marketplace.</li>
+      <li>Connection with decentralized applications.</li>
+      <li>Integration with the Zitro DEX.</li>
+      <li>Access to Artificial Intelligence services.</li>
+      <li>Staking and governance management.</li>
+    </ul>
+    <p>User experience will be one of the main development goals, reducing the usual complexity of Web3 applications through an intuitive interface aimed at the general public.</p>
+  </section>
+
+  <section>
+    <h3>3.5 Decentralized Marketplace</h3>
+    <p>The Marketplace represents one of Zitro Network's main economic engines. It will allow users, merchants and businesses to publish physical products, digital services, software, courses, digital assets and Artificial Intelligence-based solutions.</p>
+    <p>All transactions can be settled using the ZTR Token as the primary means of payment. Over time, the Marketplace will incorporate advanced tools such as reputation systems, smart-contract-protected payments and decentralized dispute resolution.</p>
+    <p>The goal is to build a digital economy where the ZTR Token has consistent utility in real commercial activity.</p>
+  </section>
+
+  <section>
+    <h3>3.6 Artificial Intelligence Platform</h3>
+    <p>Artificial Intelligence is one of Zitro Network's strategic components. Rather than offering a conversational assistant, the platform seeks to create a decentralized marketplace where developers can publish AI models, intelligent agents, automations and specialized tools.</p>
+    <p>Users will be able to access these services using the ZTR Token as payment. This model will generate new economic opportunities for developers, businesses and content creators, while increasing the ecosystem's utility. In later stages, functionality such as the following could be added:</p>
+    <ul>
+      <li>Personal assistants.</li>
+      <li>Autonomous agents.</li>
+      <li>Business automation.</li>
+      <li>Programming tools.</li>
+      <li>Content generation.</li>
+      <li>Financial analysis.</li>
+      <li>Specialized third-party services.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>3.7 Developer Platform</h3>
+    <p>The ecosystem's sustainable growth will depend heavily on its developer community. For this reason, Zitro will offer tools designed to make it easier to build new applications on the platform, including:</p>
+    <ul>
+      <li>An official SDK.</li>
+      <li>Public APIs.</li>
+      <li>Technical documentation.</li>
+      <li>Reference smart contracts.</li>
+      <li>Grant programs.</li>
+      <li>Hackathons.</li>
+      <li>Startup programs.</li>
+    </ul>
+    <p>The goal is to foster a community capable of building innovative solutions that continuously expand the ecosystem.</p>
+  </section>
+
+  <section>
+    <h3>3.8 Zitro DEX</h3>
+    <p>Zitro DEX will be the ecosystem's native decentralized exchange. Based on automated market maker (AMM) protocols, it will allow the ZTR Token to be exchanged for other digital assets without intermediaries. The protocol is designed to offer:</p>
+    <ul>
+      <li>Fast swaps.</li>
+      <li>Competitive fees.</li>
+      <li>Liquidity pools.</li>
+      <li>Staking.</li>
+      <li>Farming.</li>
+      <li>Direct integration with the Zitro Wallet.</li>
+    </ul>
+    <p>Liquidity will be backed by audited smart contracts and mechanisms designed to favor the ecosystem's stability.</p>
+  </section>
+
+  <section>
+    <h3>3.9 Evolution Toward a Proprietary Blockchain</h3>
+    <p>Although Zitro will begin its journey using BNB Chain infrastructure, the architecture has been designed to progressively evolve toward a proprietary blockchain once the technical and economic conditions justify this transition.</p>
+    <p>The future blockchain will aim to optimize processes that are currently complex or costly on general-purpose networks. Its priorities will include:</p>
+    <ul>
+      <li>Optimization for mobile applications.</li>
+      <li>High throughput for micropayments.</li>
+      <li>Native integration with Artificial Intelligence services.</li>
+      <li>Specialized infrastructure for decentralized marketplaces.</li>
+      <li>Verifiable digital identity.</li>
+      <li>Fully decentralized governance.</li>
+      <li>Bridge compatibility with major blockchain networks.</li>
+    </ul>
+    <p>Migration will only take place once the ecosystem has a consolidated community, sufficient economic activity, and a validator network capable of guaranteeing the protocol's security and decentralization.</p>
+  </section>
+</div>
+
+<div class="chapter" id="en-4">
+  <div class="chnum">Chapter 04</div>
+  <h2>Token Economics (Tokenomics)</h2>
+
+  <section>
+    <h3>4.1 Economic Philosophy</h3>
+    <p>The ZTR Token is the digital asset that powers the entire Zitro Network economy. Its economic design has been developed under three fundamental principles: long-term sustainability, real utility within the ecosystem, and progressive and transparent distribution.</p>
+    <p>Unlike models based solely on market speculation, ZTR's goal is to become the medium of exchange for all services offered by Zitro Network. Every new feature added to the ecosystem will increase the token's potential demand, strengthening an economy based on real platform usage.</p>
+  </section>
+
+  <section>
+    <h3>4.2 Maximum Issuance</h3>
+    <div class="figure">
+      <div class="label">Maximum supply</div>
+      <div class="value">10,000,000,000 ZTR</div>
+    </div>
+    <p>This cap can never be increased through administrative decisions or extraordinary issuance. Having a maximum supply provides predictability for users and establishes a transparent economic framework from the start of the project.</p>
+    <p>Issuance will take place gradually over several years, avoiding an immediate distribution that could generate economic imbalances.</p>
+  </section>
+
+  <section>
+    <h3>4.3 Initial Distribution</h3>
+    <p>The proposed distribution seeks to balance community growth, technology development and the project's financial sustainability.</p>
+    <table class="dist">
+      <tr><th>Destination</th><th>Percentage</th></tr>
+      <tr><td>Cloud Mining Rewards</td><td class="pct">45%</td></tr>
+      <tr><td>Ecosystem &amp; AI</td><td class="pct">20%</td></tr>
+      <tr><td>Liquidity &amp; DEX</td><td class="pct">15%</td></tr>
+      <tr><td>Founding Team</td><td class="pct">10%</td></tr>
+      <tr><td>Zitro Foundation</td><td class="pct">10%</td></tr>
+    </table>
+
+    <h4>Cloud Mining Rewards (45%)</h4>
+    <p>Most of the supply will be allocated to distributing the token among users who actively participate in the ecosystem during the project's early years. Rewards will be released progressively over an estimated 72-month period, allowing a broad community to form while avoiding an early concentration of supply.</p>
+
+    <h4>Ecosystem &amp; Artificial Intelligence (20%)</h4>
+    <p>This reserve will fund ecosystem growth through Marketplace development, Artificial Intelligence tools, developer grants, integration of new technologies, technical infrastructure, audits and startup programs. All movements from this reserve will be published periodically through transparency reports.</p>
+
+    <h4>Liquidity (15%)</h4>
+    <p>A decentralized economy needs sufficient liquidity to function properly. This reserve will fund the creation of liquidity pools, listing on decentralized exchanges, integration with centralized exchanges where applicable, and incentives for liquidity providers. Use of these funds will aim to favor healthy markets and reduce low-liquidity issues during the project's early stages.</p>
+
+    <h4>Founding Team (10%)</h4>
+    <p>The founding team will receive a limited allocation of the total supply. These tokens will remain locked through smart contracts under a 48-month linear vesting schedule. This mechanism aligns the team's interests with the project's growth and avoids sell pressure during the ecosystem's early stages.</p>
+
+    <h4>Zitro Foundation (10%)</h4>
+    <p>The Zitro Foundation will manage a reserve dedicated to ecosystem growth, including educational programs, community grants, hackathon organization, external audits, technology research and international expansion. The Foundation will act as an entity supporting the ecosystem, not as the owner of the network.</p>
+  </section>
+
+  <section>
+    <h3>4.4 Token Utility</h3>
+    <p>The value of a cryptocurrency depends on the utility it offers within its ecosystem. For this reason, the ZTR Token can be used to buy products within the Marketplace, sell goods and services, pay for Artificial Intelligence tools, access intelligent agents, use decentralized applications, pay DEX fees, stake, participate in governance, reward developers and content creators, and pay future Zitro blockchain fees.</p>
+    <p>The goal is for every service available within the ecosystem to increase the token's natural demand.</p>
+  </section>
+
+  <section>
+    <h3>4.5 Scheduled Issuance Reduction</h3>
+    <p>The distribution of new rewards will decrease progressively as the ecosystem matures. Rather than maintaining constant issuance, Zitro will implement a periodic reward-reduction mechanism (Halving). Each reduction will decrease the amount of new ZTR distributed through Cloud Mining.</p>
+    <p>This mechanism seeks to control inflation, incentivize early adoption, protect economic sustainability, and favor a gradual transition toward an economy based on the token's utility. The specific parameters of each reduction will be defined by governance and published with sufficient notice to guarantee transparency and predictability.</p>
+  </section>
+
+  <section>
+    <h3>4.6 Economic Model</h3>
+    <p>During the early stages, most economic activity will be driven by the initial distribution of the ZTR Token. However, the long-term goal is for the economy to evolve toward a model where generated value comes primarily from the ecosystem's services: Marketplace fees, Artificial Intelligence services, DEX operations, third-party applications, enterprise solutions, premium services and developer infrastructure.</p>
+    <p>In this way, the project's growth will increasingly depend less on the issuance of new tokens and more on the platform's effective usage.</p>
+  </section>
+
+  <section>
+    <h3>4.7 Sustainability</h3>
+    <p>Zitro's economic design seeks to balance three fundamental objectives: incentivizing adoption during the early stages, favoring continuous ecosystem development, and building a sustainable long-term economy based on real services.</p>
+    <p>The combination of a fixed maximum supply, progressive issuance, reward-reduction mechanisms and broad utility for the ZTR Token forms the economic foundation on which Zitro Network will be developed.</p>
+  </section>
+</div>
+
+<div class="chapter" id="en-5">
+  <div class="chnum">Chapter 05</div>
+  <h2>Participation System, Cloud Mining and Network Growth</h2>
+
+  <section>
+    <h3>5.1 Introduction</h3>
+    <p>Building a decentralized economy requires a broad and progressive distribution of its digital asset. Historically, many blockchain projects have distributed their tokens through traditional mining, private presales, or allocations concentrated among large investors. These models tend to create entry barriers and an uneven distribution of supply.</p>
+    <p>Zitro takes a different approach. During the project's first stage, distribution of the ZTR Token will occur mainly through a Cloud Mining system, designed to make it easy for new users to join the ecosystem without requiring technical knowledge, specialized hardware or upfront investment.</p>
+    <p>The goal is not to reward computing power, but to incentivize active participation within the platform and build a global community from its earliest stages.</p>
+  </section>
+
+  <section>
+    <h3>5.2 Cloud Mining: An Adoption-Oriented Model</h3>
+    <p>The Cloud Mining system allows any user to take part in the initial distribution of the ZTR Token using only the official Zitro application. Unlike traditional mining, the mobile device does not perform complex cryptographic computation or consume significant processing or battery resources.</p>
+    <p>Rewards are managed by the protocol's infrastructure and assigned according to transparent participation criteria. This approach considerably reduces entry barriers, making it possible for millions of people to join the ecosystem using only a mobile phone.</p>
+    <p>Cloud Mining represents the gateway to the ecosystem, but it is not the project's ultimate goal. As Zitro evolves, economic weight will progressively shift toward the Marketplace, Artificial Intelligence, decentralized applications and financial services built on the platform.</p>
+  </section>
+
+  <section>
+    <h3>5.3 Verifiable Participation</h3>
+    <p>The sustainable growth of a network depends on the quality of its community. For this reason, Zitro seeks to incentivize legitimate participation from real users through a model called Verifiable Participation.</p>
+    <p>Rewards will not depend exclusively on time spent in the application, but also on interaction with the ecosystem. Factors that may be considered include identity verification, activity within the platform, use of services, community participation, interaction with decentralized applications, collaboration in official programs, and contribution to ecosystem growth.</p>
+    <p>This approach aims to encourage an active community committed to the platform's development.</p>
+  </section>
+
+  <section>
+    <h3>5.4 Digital Identity and Fraud Prevention</h3>
+    <p>One of the main challenges for platforms that distribute digital assets is the mass creation of fake accounts. These practices lead to an unfair distribution of rewards and negatively affect legitimate users.</p>
+    <p>To reduce this risk, Zitro will implement an identity verification process (KYC) before enabling certain ecosystem functionality, such as token migration, access to certain rewards, or participation in governance mechanisms. The platform will also incorporate tools to detect anomalous behavior and prevent Sybil attacks, malicious automation and other forms of fraud.</p>
+    <p>The goal is to protect the ecosystem's integrity without compromising the user experience.</p>
+  </section>
+
+  <section>
+    <h3>5.5 Referral Program</h3>
+    <p>Zitro's expansion will be driven mainly by the organic growth of its community. To encourage this growth, the platform will feature a referral program designed to reward those who invite new users.</p>
+    <p>Rewards will be subject to conditions designed to guarantee network quality and prevent the creation of fake accounts, including identity verification of the referred user, minimum activity within the platform, compliance with community policies, and authenticity validation.</p>
+    <p>The system may also progressively adjust rewards as the network grows, avoiding excessive inflation and favoring a more sustainable distribution of the ZTR Token.</p>
+  </section>
+
+  <section>
+    <h3>5.6 Evolution of the Rewards Model</h3>
+    <p>During the project's early stages, Cloud Mining will be the main mechanism for distributing the ZTR Token. However, as the ecosystem incorporates new services, sources of value generation will diversify: liquidity provisioning, staking, application development, publishing Artificial Intelligence tools, participation in innovation programs, creation of educational content, resolution of technical challenges, and contribution to governance.</p>
+    <p>This evolution will allow the ecosystem's economy to depend increasingly less on the issuance of new tokens and increasingly more on the creation of real value.</p>
+  </section>
+
+  <section>
+    <h3>5.7 Transition Toward a Services-Based Economy</h3>
+    <p>Zitro's goal is not to indefinitely maintain an onboarding-based rewards model. Cloud Mining is a tool to accelerate adoption during the project's early stages.</p>
+    <p>As the platform matures, economic growth will be driven mainly by the use of its services, including the Marketplace, the Artificial Intelligence platform, the Zitro DEX, decentralized applications, and future solutions developed by the community. This transition seeks to build a sustainable economy where the value of the ZTR Token comes from the economic activity generated within the ecosystem.</p>
+  </section>
+
+  <section>
+    <h3>5.8 A Community as Infrastructure</h3>
+    <p>In Zitro's vision, the community represents one of the project's most important assets. Every new user not only extends the platform's reach but also strengthens the network through new interactions, merchants, developers, content creators and innovation opportunities.</p>
+    <p>The ecosystem's success will depend on its ability to turn a community of users into a community of builders. For this reason, Zitro will foster training programs, hackathons, developer incentives, regional ambassadors and governance mechanisms that allow the community to actively participate in the project's evolution.</p>
+  </section>
+</div>
+
+<div class="chapter" id="en-6">
+  <div class="chnum">Chapter 06</div>
+  <h2>Ecosystem Evolution and Network Development</h2>
+
+  <section>
+    <h3>6.1 Building Before Decentralizing</h3>
+    <p>One of the biggest challenges facing many blockchain projects is launching a fully decentralized infrastructure before having enough users, applications or economic activity to sustain it. In many cases, this results in networks with little usage, low validator participation and an economy driven purely by speculation.</p>
+    <p>Zitro takes a different approach. The initial priority will not be to build a proprietary blockchain, but to develop a useful ecosystem that solves real problems for people, merchants and developers. Only once a solid community, functioning applications and an active economy exist will the evolution toward a proprietary blockchain infrastructure make technical and economic sense.</p>
+    <p>This model reduces risk, optimizes the project's resources, and allows efforts to focus on generating utility from day one.</p>
+  </section>
+
+  <section>
+    <h3>6.2 First Stage: Building the Ecosystem</h3>
+    <p>During the first stage, the ZTR Token will run on BNB Chain, one of the most established and widely used blockchain networks in the world. This decision offers multiple advantages: users will be able to store their assets using widely known wallets compatible with the BEP-20 standard, and developers will be able to integrate the ZTR Token using existing tools, significantly reducing development time.</p>
+    <p>At the same time, Zitro will be able to concentrate its resources on building products and services, rather than allocating a significant part of the budget to maintaining a proprietary blockchain. During this phase, Cloud Mining, the Zitro Wallet, the Marketplace, the Artificial Intelligence platform, the developer platform, the Zitro DEX, ambassador programs and governance tools will be progressively developed.</p>
+    <p>The main goal will be to build a functional economy before building a new blockchain infrastructure.</p>
+  </section>
+
+  <section>
+    <h3>6.3 Ecosystem Consolidation</h3>
+    <p>Once the main services are operational, priority will shift from acquiring users to increasing economic activity within the platform. Zitro's success will not depend solely on the number of registered users, but on indicators such as monthly active users, transaction volume, merchants accepting ZTR, developers publishing applications, use of Artificial Intelligence tools, DEX liquidity, and governance participation.</p>
+    <p>These indicators better reflect the ecosystem's health than a simple registration count. Sustainable growth will be measured by real platform usage.</p>
+  </section>
+
+  <section>
+    <h3>6.4 Toward a Proprietary Blockchain</h3>
+    <p>Building a proprietary blockchain is not an immediate goal but a natural evolution of the project. Migration will only be considered once the ecosystem demonstrates that a proprietary infrastructure would provide real advantages over continuing to use an established network.</p>
+    <p>Factors that could justify this transition include sustained growth in active users, high daily transaction volume, increased use of the Marketplace and the DEX, the need to optimize operating costs, greater demand for Artificial Intelligence applications, and the existence of a community capable of operating validator nodes.</p>
+    <p>Only in that scenario will a proprietary blockchain deliver higher performance, reduce operating costs, and adapt the protocol to the ecosystem's specific needs.</p>
+  </section>
+
+  <section>
+    <h3>6.5 Principles of the Zitro Blockchain</h3>
+    <p>Zitro's future blockchain infrastructure will be designed to address concrete ecosystem needs.</p>
+    <h4>Optimization for mobile devices</h4>
+    <p>The protocol will prioritize an efficient experience for users interacting primarily from smartphones.</p>
+    <h4>High throughput for micropayments</h4>
+    <p>The network will aim to facilitate fast, low-cost payments between users, merchants and applications.</p>
+    <h4>Native integration with Artificial Intelligence</h4>
+    <p>The blockchain will be prepared to interact with AI services built within the ecosystem, facilitating automatic payments, execution of intelligent agents, and verifiable transaction records.</p>
+    <h4>Digital Identity</h4>
+    <p>The infrastructure will support verifiable identity mechanisms that reduce fraud and strengthen trust among participants.</p>
+    <h4>Interoperability</h4>
+    <p>The network will maintain compatibility with other blockchains through bridges and open standards, avoiding an isolated ecosystem.</p>
+  </section>
+
+  <section>
+    <h3>6.6 Progressive Decentralization</h3>
+    <p>Decentralization should not be understood as a state achieved on day one, but as a continuous process. As the community grows, more functions will be managed directly by network participants.</p>
+    <p>This evolution will progressively include independent validators, greater community participation in governance, open audits, tools for external developers, and improvements proposed and approved by the community. This approach seeks to build a solid infrastructure without compromising the ecosystem's stability during its early stages.</p>
+  </section>
+
+  <section>
+    <h3>6.7 An Infrastructure Designed to Last</h3>
+    <p>Zitro's vision is to build a platform capable of evolving over the coming decades. For this reason, every technology decision will be made considering not only current needs, but also the ecosystem's ability to adapt to new technologies, business models and changes in the digital economy.</p>
+    <p>The goal is not to create yet another blockchain. The goal is to build an infrastructure that allows millions of people to easily access digital payments, e-commerce, decentralized applications, artificial intelligence and new services yet to be developed.</p>
+  </section>
+</div>
+
+<div class="chapter" id="en-7">
+  <div class="chnum">Chapter 07</div>
+  <h2>Governance and Ecosystem Development</h2>
+
+  <section>
+    <h3>7.1 A Platform Built With Its Community</h3>
+    <p>The growth of a decentralized platform does not depend solely on its technology. It also depends on its community's ability to participate in its evolution.</p>
+    <p>Many platforms begin with a small team making all decisions. However, as the ecosystem grows, that model is no longer sufficient to represent the interests of thousands or millions of users.</p>
+    <p>Zitro adopts a progressive governance model. During the early stages, the founding team will be responsible for technical development, security and roadmap execution. As the ecosystem grows, the community will take on an increasingly important role in strategic decision-making.</p>
+    <p>This process will allow the project's evolution to be gradual, transparent, and oriented toward the real needs of its users.</p>
+  </section>
+
+  <section>
+    <h3>7.2 Zitro Foundation</h3>
+    <p>The Zitro Foundation will be an organization dedicated to driving the ecosystem's sustainable growth. Its main function will be to coordinate initiatives that benefit the entire community, promoting technology development, education, and platform adoption.</p>
+    <p>Its main responsibilities will include promoting global adoption of the ecosystem, supporting educational programs, funding research, coordinating security audits, managing developer programs, organizing events and hackathons, and collaborating with universities, businesses and technology organizations.</p>
+    <p>The Foundation will not manage users' assets or control the network. Its role will be to drive ecosystem development and foster collaboration among all participants.</p>
+  </section>
+
+  <section>
+    <h3>7.3 Governance Through the ZTR Token</h3>
+    <p>The ZTR Token will allow users to progressively participate in certain ecosystem-related decisions. As the platform evolves, voting mechanisms may be introduced for topics such as adding new features, roadmap priorities, allocation of funds for ecosystem development, developer programs, and community initiatives.</p>
+    <p>The goal is for strategic decisions to become increasingly participatory, while maintaining the platform's technical stability.</p>
+  </section>
+
+  <section>
+    <h3>7.4 Developer Support</h3>
+    <p>The success of a Web3 platform depends on its ability to attract developers. For this reason, Zitro will drive programs designed to facilitate the creation of new applications and services, including grants for innovative projects, hackathons, open technical documentation, development tools, training programs, and support for emerging teams.</p>
+    <p>Every new application built on Zitro will increase the ecosystem's value and expand the possibilities available to its users.</p>
+  </section>
+
+  <section>
+    <h3>7.5 Security and Transparency</h3>
+    <p>Trust is one of the most important assets of any blockchain project. For this reason, Zitro will promote a culture based on transparency and continuous improvement. Whenever possible, important updates, audits, development reports and relevant decisions will be communicated publicly.</p>
+    <p>External audits of smart contracts and critical infrastructure will also be encouraged before launching new features. Security should not be considered a one-time task, but a permanent process that accompanies the ecosystem's evolution.</p>
+  </section>
+
+  <section>
+    <h3>7.6 Community Incentive Program</h3>
+    <p>Zitro's growth will depend on the active participation of thousands of people around the world. For this reason, the platform will develop recognition programs for those who contribute to the ecosystem, including incentives for developers, content creators, translators, educators, regional ambassadors, security researchers and community collaborators.</p>
+    <p>The goal is to build a community that not only uses the platform, but also actively participates in its growth.</p>
+  </section>
+
+  <section>
+    <h3>7.7 An Ecosystem Driven by Collaboration</h3>
+    <p>Decentralized technologies evolve rapidly. For this reason, Zitro will seek to maintain an open architecture that facilitates collaboration among developers, businesses, educational institutions and technology communities.</p>
+    <p>Innovation will not depend exclusively on the founding team. The project's growth will be driven by a community capable of contributing new ideas, developing applications, and creating solutions that continuously expand the ecosystem's possibilities.</p>
+  </section>
+</div>
+
+<div class="chapter" id="en-8">
+  <div class="chnum">Chapter 08</div>
+  <h2>Security, Digital Identity and Infrastructure</h2>
+
+  <section>
+    <h3>8.1 Trust as the Foundation of the Ecosystem</h3>
+    <p>The adoption of decentralized technologies depends on one fundamental element: trust. Users will only use a platform to store assets, make payments or interact with decentralized applications if they perceive their information and funds are protected.</p>
+    <p>For this reason, security will not be considered an additional feature of Zitro, but a principle present in every component of the ecosystem. From infrastructure design to smart contract development, every feature will aim to reduce risk and offer a trustworthy experience for users, developers and businesses.</p>
+  </section>
+
+  <section>
+    <h3>8.2 Security by Design</h3>
+    <p>Security will be built in from the earliest stages of development, not only before launching new features. Every ecosystem component will follow good development practices, code review and audits before implementation. Planned measures include continuous source-code review, independent smart contract audits, security testing before every major update, ongoing infrastructure monitoring, and vulnerability-reporting reward programs (Bug Bounty).</p>
+    <p>The goal is to detect and fix potential flaws before they affect the community.</p>
+  </section>
+
+  <section>
+    <h3>8.3 Digital Identity</h3>
+    <p>One of the biggest challenges for decentralized platforms is balancing user privacy with the need to protect the ecosystem against fraud. During Zitro's early stages, certain functionality will require identity verification (KYC), particularly features related to token migration, access to certain rewards, and compliance with regulatory requirements where applicable.</p>
+    <p>The purpose of the verification process is not to collect unnecessary information, but to ensure that ecosystem rewards reach real people and to reduce the mass creation of fake accounts. In the future, Zitro will explore decentralized digital identity (DID) technologies that offer greater levels of privacy and control over personal data.</p>
+  </section>
+
+  <section>
+    <h3>8.4 Protection Against Fraudulent Accounts</h3>
+    <p>Platforms that distribute digital assets often face manipulation attempts through bots, automation, or multiple accounts created by the same person. These practices directly affect the project's sustainability and harm those who participate legitimately.</p>
+    <p>To reduce this risk, Zitro will implement detection mechanisms based on behavior analysis, automatic validations, and verification processes when necessary. These tools will aim to protect the ecosystem's integrity without affecting the experience of legitimate users.</p>
+  </section>
+
+  <section>
+    <h3>8.5 Protection of Digital Assets</h3>
+    <p>The ecosystem's design will seek to ensure users retain control over their assets whenever possible. During the initial stage, the ZTR Token will run on BNB Chain, allowing the use of wallets compatible with this standard, offering compatibility with widely used community tools, easier movement of assets between compatible platforms, simple integration with decentralized applications, and less dependence on proprietary infrastructure.</p>
+    <p>As Zitro evolves, any new infrastructure will keep asset security as a priority, and will allow users to retain control of their keys whenever the technology used permits it.</p>
+  </section>
+
+  <section>
+    <h3>8.6 Scalable Infrastructure</h3>
+    <p>Zitro's technology infrastructure will be designed to evolve alongside the ecosystem's growth. During the early stages, the platform will leverage widely proven services to guarantee availability, stability and performance.</p>
+    <p>As ecosystem activity increases, the architecture may incorporate new infrastructure layers aimed at improving efficiency, reducing operating costs and facilitating progressive decentralization. This approach allows the project to grow sustainably without compromising the user experience.</p>
+  </section>
+
+  <section>
+    <h3>8.7 Integration With External Data Sources</h3>
+    <p>Many decentralized applications need access to real-world information, such as asset prices, exchange rates, events or data from other systems. When necessary, Zitro will integrate specialized services capable of providing this information verifiably for use by smart contracts and ecosystem applications.</p>
+    <p>These integrations will expand development possibilities without compromising the platform's security.</p>
+  </section>
+
+  <section>
+    <h3>8.8 Security as a Continuous Process</h3>
+    <p>Security does not end with an application's launch. Threats evolve constantly, as do the technologies used to protect systems. For this reason, Zitro will promote a continuous-improvement strategy based on periodic audits, constant infrastructure updates, collaboration with security researchers, vulnerability-detection reward programs, and ongoing review of smart contracts and critical components.</p>
+    <p>Protecting the ecosystem will be a permanent process that evolves alongside the platform.</p>
+  </section>
+</div>
+
+<div class="chapter" id="en-9">
+  <div class="chnum">Chapter 09</div>
+  <h2>Adoption and Growth Strategy</h2>
+
+  <section>
+    <h3>9.1 Beyond a Cryptocurrency</h3>
+    <p>The success of a blockchain project does not depend solely on its technology, but on its ability to solve everyday problems and build an active community. Thousands of projects have developed technically sound tokens that never achieved meaningful adoption because they lacked real use cases.</p>
+    <p>Zitro's strategy starts from a different principle: build a platform that people use for the services it offers, not solely for the possibility of obtaining a digital asset. The ZTR Token will be a central element of the ecosystem, but its growth will be driven by the use of applications, tools and solutions that add value to everyday life.</p>
+  </section>
+
+  <section>
+    <h3>9.2 An Ecosystem Built for Different Users</h3>
+    <p>The digital economy is made up of profiles with very different needs. For this reason, Zitro seeks to develop an ecosystem capable of generating value for multiple types of users.</p>
+    <h4>Individual users</h4>
+    <p>They will be able to access a simple platform to explore the Web3 ecosystem, make payments, use artificial intelligence tools, access the Marketplace, and participate in rewards programs.</p>
+    <h4>Merchants</h4>
+    <p>They will have an alternative to accept digital payments, expand their sales channels, and access new customers through the Marketplace.</p>
+    <h4>Developers</h4>
+    <p>They will find an open infrastructure on which to build applications, integrate services and generate revenue through their own products.</p>
+    <h4>Businesses</h4>
+    <p>They will be able to incorporate blockchain and artificial intelligence solutions without needing to build the entire infrastructure from scratch.</p>
+    <p>This approach ensures the ecosystem's growth does not depend on a single type of user.</p>
+  </section>
+
+  <section>
+    <h3>9.3 Utility-Based Growth</h3>
+    <p>Many projects center their strategy on aggressive marketing campaigns to increase sign-ups. However, a large number of registered users does not guarantee an active community.</p>
+    <p>Zitro's strategy prioritizes indicators that reflect real platform usage, such as active users, transaction volume, integrated merchants, developed applications, use of artificial intelligence tools, activity within the Marketplace, and ecosystem liquidity. The goal is to build a community that participates consistently, not only during the project's launch.</p>
+  </section>
+
+  <section>
+    <h3>9.4 Driving Innovation</h3>
+    <p>An ecosystem grows when others can build on top of it. For this reason, Zitro will foster the creation of new solutions through programs aimed at developers, entrepreneurs and technology companies, including grant programs, hackathons, project incubation, technical documentation, development tools, and training programs.</p>
+    <p>Every new application expands the ecosystem's value and creates new opportunities for the entire community.</p>
+  </section>
+
+  <section>
+    <h3>9.5 International Expansion</h3>
+    <p>Zitro will be designed as a platform with global reach. Its infrastructure will aim to make it easier for users from different countries to join, through a simple experience, documentation in multiple languages, and tools adapted to different markets.</p>
+    <p>The expansion strategy will prioritize regions with high growth in digital asset adoption and economies where decentralized financial solutions can provide differentiated value. The community will play a fundamental role in this process through ambassador programs, local events, and educational activities.</p>
+  </section>
+
+  <section>
+    <h3>9.6 Education as a Driver of Adoption</h3>
+    <p>Lack of knowledge remains one of the main barriers to blockchain technology adoption. Many people find concepts such as digital wallets, smart contracts, or decentralized applications complex.</p>
+    <p>To reduce this barrier, Zitro will drive educational resources aimed at both new users and developers, including courses, tutorials, interactive documentation, workshops, online seminars, and certification programs. An informed community can make better use of available tools and contribute to the ecosystem's sustainable growth.</p>
+  </section>
+
+  <section>
+    <h3>9.7 Building a Sustainable Economy</h3>
+    <p>Zitro's growth will not be based exclusively on the initial distribution of the ZTR Token. As the ecosystem evolves, generated value will come primarily from economic activity developed within the platform.</p>
+    <p>The Marketplace, decentralized applications, artificial intelligence tools, enterprise services, and future third-party solutions will be the main drivers of this economy. This approach seeks to reduce dependence on new token issuance and strengthen a model based on real value creation.</p>
+  </section>
+
+  <section>
+    <h3>9.8 Long-Term Vision</h3>
+    <p>Zitro's vision is to become a platform where blockchain, artificial intelligence and digital commerce work together to offer accessible solutions to users, developers and businesses.</p>
+    <p>The ecosystem's growth will not be measured solely by the market value of the ZTR Token, but by its ability to generate an active community, a solid technology infrastructure, and an environment where innovation can develop sustainably. Every new application, merchant, developer and user will strengthen a network whose ultimate goal is to facilitate access to the decentralized digital economy.</p>
+  </section>
+</div>
+
+<div class="chapter" id="en-10">
+  <div class="chnum">Chapter 10</div>
+  <h2>Risk Management and Project Sustainability</h2>
+
+  <section>
+    <h3>10.1 The Importance of Managing Risk</h3>
+    <p>Every technology project faces challenges during its development. In the blockchain space, these risks can relate to technology, security, regulation, market adoption, or the evolution of the digital economy.</p>
+    <p>Recognizing these challenges from the outset allows for more responsible decision-making and building a platform prepared to adapt to a constantly changing environment. Zitro's strategy is not to eliminate risk entirely, but to identify it, reduce its impact, and respond quickly when necessary.</p>
+  </section>
+
+  <section>
+    <h3>10.2 Adoption Risk</h3>
+    <p>One of the biggest challenges for any Web3 project is getting people to use the platform consistently. Many projects manage to attract users at launch, but later experience a significant drop in activity due to a lack of utility.</p>
+    <p>To reduce this risk, Zitro will focus its growth on the continuous development of products and services that generate value for different user profiles. The ecosystem's success will depend on people finding reasons to keep using the platform beyond the initial distribution of the ZTR Token.</p>
+  </section>
+
+  <section>
+    <h3>10.3 Technology Risk</h3>
+    <p>Blockchain technologies evolve rapidly. New solutions, standards and protocols appear every year, changing how decentralized applications are built.</p>
+    <p>To remain competitive, Zitro will adopt a modular architecture that facilitates the incorporation of new technologies without needing to rebuild the entire infrastructure. This approach will allow the ecosystem to adapt to market needs and take advantage of technological advances as they mature.</p>
+  </section>
+
+  <section>
+    <h3>10.4 Security Risk</h3>
+    <p>Protecting users is a priority for any platform that manages digital assets. Errors in smart contracts, software vulnerabilities, or cyberattacks can affect both trust and the ecosystem's operation.</p>
+    <p>To reduce these risks, Zitro will promote independent audits, periodic code reviews, continuous infrastructure monitoring, and reward programs for researchers who responsibly report vulnerabilities. Security will be a permanent process, not an activity limited to the project's launch.</p>
+  </section>
+
+  <section>
+    <h3>10.5 Regulatory Risk</h3>
+    <p>The regulatory framework applicable to digital assets continues to evolve in numerous countries. Changes in legislation could affect certain services offered by blockchain platforms.</p>
+    <p>For this reason, Zitro will strive to develop its infrastructure flexibly, allowing certain processes to adapt when local regulations require it. The goal will be to favor compliance with applicable legislation without compromising the fundamental principles of transparency, decentralization and innovation.</p>
+  </section>
+
+  <section>
+    <h3>10.6 Economic Risk</h3>
+    <p>The digital asset market is characterized by high volatility. Price fluctuations are part of the normal operation of this type of market and can influence perception of the project during different stages of its development.</p>
+    <p>Zitro's strategy seeks to reduce dependence on purely speculative factors by building an ecosystem where the ZTR Token has growing utility in services, applications and solutions developed on the platform. In the long term, an economy based on real use cases is more sustainable than a model driven solely by market expectations.</p>
+  </section>
+
+  <section>
+    <h3>10.7 Operational Risk</h3>
+    <p>Accelerated growth can present a challenge for any organization. Onboarding new users, developers and partners requires internal processes capable of maintaining service quality.</p>
+    <p>To address this challenge, Zitro will pursue a gradual growth strategy, strengthening infrastructure and teams as ecosystem activity increases. This approach seeks to ensure that the platform's expansion is matched by the capacity needed to deliver a stable and secure experience.</p>
+  </section>
+
+  <section>
+    <h3>10.8 Commitment to Continuous Improvement</h3>
+    <p>Risk management is not a one-time stage of development, but a permanent process. The ecosystem's evolution will be accompanied by continuous review of processes, technologies and security mechanisms, with the goal of adapting to new challenges and seizing opportunities for improvement.</p>
+    <p>The ability to learn, innovate and evolve will be one of the fundamental pillars for Zitro Network's sustainable growth.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h3>Conclusion</h3>
+    <p>Developing a blockchain infrastructure means facing technical, economic and regulatory challenges that evolve constantly. Zitro embraces these challenges as a natural part of technological innovation and will direct its efforts toward building a resilient, transparent ecosystem prepared to adapt to a dynamic environment.</p>
+    <p>The community's trust will depend not only on the technology developed, but also on the project's ability to manage risk responsibly and maintain a long-term vision.</p>
+  </section>
+</div>
+
+<footer>
+  <p>Zitro Network</p>
+  <p>White Paper v2.0 &middot; June 30, 2026</p>
+</footer>
+
 </div>
 
 </div>
-<!-- END SECTION EN -->
 
 <script>
-function toggleLang() {
-    const es = document.getElementById('section-es');
-    const en = document.getElementById('section-en');
-    const btn = document.getElementById('lang-btn');
-    if (es.style.display === 'none') {
-        es.style.display = 'block';
-        en.style.display = 'none';
-        btn.textContent = '🇬🇧 English';
-    } else {
-        es.style.display = 'none';
-        en.style.display = 'block';
-        btn.textContent = '🇪🇸 Español';
-    }
+function setLang(l){
+  document.querySelector('.lang-es').style.display=l==='es'?'block':'none';
+  document.querySelector('.lang-en').style.display=l==='en'?'block':'none';
+  var buttons = document.querySelectorAll('.controls .switch')[0].querySelectorAll('button');
+  buttons.forEach(function(b){b.classList.remove('active')});
+  buttons[l==='es'?0:1].classList.add('active');
+  document.documentElement.setAttribute('lang', l);
+}
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme', t==='dark'?'dark':'light');
+  var buttons = document.querySelectorAll('.controls .switch')[1].querySelectorAll('button');
+  buttons.forEach(function(b){b.classList.remove('active')});
+  buttons[t==='dark'?1:0].classList.add('active');
 }
 </script>
 </body>
